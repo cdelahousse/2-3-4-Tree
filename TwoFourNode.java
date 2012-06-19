@@ -1,7 +1,7 @@
 import java.util.Comparator;
 
 
-public class TwoFourNode {
+public class TwoFourNode<T> {
 	
 	//Global data
 	protected final TwoFourNode divorcedAndChildless = null;
@@ -18,9 +18,15 @@ public class TwoFourNode {
 
 	protected TwoFourNode 	parent;
 	protected int	numberOfElems;
+	
 	public TwoFourNode() {
 		numberOfElems = 0;
 		c = new DefaultComparator();
+	}
+	//If you want to pass in a caparator
+	public TwoFourNode(Comparator<T> ca) {
+		numberOfElems = 0;
+		c = ca;
 	}
 
 	//elems on node
@@ -84,11 +90,12 @@ public class TwoFourNode {
 	}
 
 	//searches for elem, returns index
-	public int findElem(long key) {        //XXX LONG and COMPARE
+	public int findElem(Object key) {        //XXX LONG and COMPARE
 		int flag = -1;
 
 		for(int i=0; i<3; i++)  { 
-				if(elems[i].getData() == key) { //XXX LONG and COMPARE
+				//if(elems[i].getData() == key) { //XXX LONG and COMPARE
+				if( elems[i].getData().equals(key) ) { //XXX LONG and COMPARE
 					flag = i;
 				}
 				else if(elems[i] == null) {
@@ -113,7 +120,7 @@ public class TwoFourNode {
 	public int addNewElem(Data obj) {
 
 
-		long newKey = obj.getData();        //XXX LONG AND COMPARABLE
+		Object newKey = obj.getData();        //XXX LONG AND COMPARABLE
 
 		//Inc node
 		numberOfElems++;
@@ -125,9 +132,11 @@ public class TwoFourNode {
 					continue; 
 				else {                             
 
-					long itsKey = elems[i].getData(); //XXX LONG and COMPARE
+					Object itsKey = elems[i].getData(); //XXX LONG and COMPARE
 					//If bigger than, shift left
-					if(newKey < itsKey) //XXX COMPARABLE
+					//if(newKey < itsKey) //XXX COMPARABLE
+					//if(((ta)newKey).data < ((ta)itsKey).data) //XXX COMPARABLE
+					if(c.compare(newKey, itsKey) < 0) //XXX COMPARABLE
 						elems[i+1] = elems[i]; 
 
 					//No more shifting

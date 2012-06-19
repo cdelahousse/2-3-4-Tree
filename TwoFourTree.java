@@ -7,6 +7,14 @@ public class TwoFourTree implements SSet<Object> {
 	private TwoFourNode myRootNode = new TwoFourNode(); //Tree needs a root
 	
 
+	Comparator c;
+	
+	public TwoFourTree() {
+		c = new DefaultComparator();
+	}
+	public TwoFourTree(Comparator ca) {
+		c = ca;
+	}
 
 
 	public boolean belongsTo(Object x) {
@@ -16,7 +24,8 @@ public class TwoFourTree implements SSet<Object> {
 
 	//Find elem in  tree node, return index
 	//XXX DOUBLED
-	public int find(long key) //XXX LONG COMPARE OBJECT
+	//public int find(long key) //XXX LONG COMPARE OBJECT
+	public int findE(Object key) //XXX LONG COMPARE OBJECT
 	{
 		TwoFourNode curNode = myRootNode;
 		int childNumber;
@@ -34,7 +43,8 @@ public class TwoFourTree implements SSet<Object> {
 
 
 	//XXX CHANGE NAME
-	public void insert(long dValue) //XXX long  XXX dvalue
+//	public void insert(long dValue) //XXX long  XXX dvalue
+	public void insert(Object dValue) //XXX long  XXX dvalue
 	{
 		TwoFourNode curNode = myRootNode;
 		Data tempItem = new Data(dValue); //XXX dvalue
@@ -63,14 +73,18 @@ public class TwoFourTree implements SSet<Object> {
 
 
 	// gets appropriate child of node during search for value
-	public TwoFourNode getNextChild(TwoFourNode theNode, long theValue) //XXX LONG
+//	public TwoFourNode getNextChild(TwoFourNode theNode, long theValue) //XXX LONG
+	public TwoFourNode getNextChild(TwoFourNode theNode, Object theValue) //XXX LONG
 	{
 		int i;
 		// assumes node is not empty, not full, not a leaf
 		int numElems = theNode.howManyElems();
 		for(i=0; i<numElems; i++)          // for each item in node
 		{                               // are we less?
-			if( theValue < theNode.getElem(i).getData() )
+//			theValue = (ta) theValue;
+//			if( ((ta)theValue).data < ((ta)theNode.getElem(i).getData()).data) //XXX COMPARABLE
+			//if( theValue < theNode.getElem(i).getData() ) //XXX COMPARABLE
+			if( c.compare(theValue, theNode.getElem(i).getData()) < 0 ) //XXX COMPARABLE
 				return theNode.getChild(i);  // return left child
 		}  // end for                   // we're greater, so
 		return theNode.getChild(i);        // return right child
@@ -115,9 +129,9 @@ public class TwoFourTree implements SSet<Object> {
 	}
 	
 	
+	//TEst ME!!!
 	public Comparator<? super Object> comparator() {
-		// TODO Auto-generated method stub
-		return null;
+		return c;
 	}
 
 	public int size() {

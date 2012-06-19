@@ -4,12 +4,12 @@
 
 //XXX NOT LONG
 class Data {
-	private long dData;       //XXX
-	public Data(long dd)  {
+	private Object dData;       //XXX
+	public Data(Object dd)  { //Long
 		dData = dd;
 	}
 
-	public long getData() {
+	public Object getData() {
 		return dData;
 	}
 	public void displayItem()   // display item, format "/27"

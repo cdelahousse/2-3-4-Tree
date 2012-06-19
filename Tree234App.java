@@ -1,7 +1,8 @@
 import java.io.*;
+import java.util.Comparator;
 class Tree234App
    {
-   public static void main(String[] args) throws IOException {
+   public static <T> void main(String[] args) throws IOException {
 
 
 
@@ -59,29 +60,32 @@ class Tree234App
          
       }  // end main()
    
+   public static void tinsert2(TwoFourTree t) {
+	   
+   }
    
    public static void tinsert(TwoFourTree t) {
 
-      t.insert(50);
-      t.insert(40);
-      t.insert(41);
-      t.insert(72);
-      t.insert(33);
-      t.insert(45);
-      t.insert(42);
-      t.insert(49);
-      t.insert(34);
-      t.insert(60);
-      t.insert(61);
-      t.insert(62);
-      t.insert(31);
-      t.insert(44);
-      t.insert(30);
-      t.insert(66);
-      t.insert(32);
-      t.insert(70);
-      t.insert(71);
-      t.insert(67);
+      t.insert(new ta(50));
+      t.insert(new ta(40));
+      t.insert(new ta(41));
+      t.insert(new ta(72));
+      t.insert(new ta(73));
+      t.insert(new ta(45));
+      t.insert(new ta(42));
+      t.insert(new ta(49));
+      t.insert(new ta(34));
+      t.insert(new ta(60));
+      t.insert(new ta(61));
+      t.insert(new ta(62));
+      t.insert(new ta(31));
+      t.insert(new ta(44));
+      t.insert(new ta(30));
+      t.insert(new ta(66));
+      t.insert(new ta(32));
+      t.insert(new ta(70));
+      t.insert(new ta(71));
+      t.insert(new ta(67));
 	 }
    //Do not allow doubles
    public static void tinsertDoubles(TwoFourTree t) {
