@@ -7,18 +7,18 @@ class Tree234App
 
 
      //System.out.println(
-		long value;
-		TwoFourTree theTree = new TwoFourTree();
+		TwoFourTree theTree = new TwoFourTree(new DefaultComparator());
 		
 
 		
 		
 
 		
-		tinsert(theTree);
+		tadd(theTree);
       
 
 		theTree.displayTree();
+		System.out.println(theTree.comparator());
 		System.out.println("");
 
 
@@ -27,7 +27,7 @@ class Tree234App
 		//while(true)
 			 //{
 			 //System.out.print("Enter first letter of ");
-			 //System.out.print("show, insert, or find: ");
+			 //System.out.print("show, add, or find: ");
 			 //char choice = getChar();
 			 //switch(choice)
 					//{
@@ -35,9 +35,9 @@ class Tree234App
 						 //theTree.displayTree();
 						 //break;
 					//case 'i':
-						 //System.out.print("Enter value to insert: ");
+						 //System.out.print("Enter value to add: ");
 						 //value = getInt();
-						 //theTree.insert(value);
+						 //theTree.add(value);
 						 //break;
 					//case 'f':
 						 //System.out.print("Enter value to find: ");
@@ -60,42 +60,42 @@ class Tree234App
          
       }  // end main()
    
-   public static void tinsert2(TwoFourTree t) {
+   public static void tadd2(TwoFourTree t) {
 	   
    }
    
-   public static void tinsert(TwoFourTree t) {
+   public static void tadd(TwoFourTree t) {
 
-      t.insert(new ta(50));
-      t.insert(new ta(40));
-      t.insert(new ta(41));
-      t.insert(new ta(72));
-      t.insert(new ta(73));
-      t.insert(new ta(45));
-      t.insert(new ta(42));
-      t.insert(new ta(49));
-      t.insert(new ta(34));
-      t.insert(new ta(60));
-      t.insert(new ta(61));
-      t.insert(new ta(62));
-      t.insert(new ta(31));
-      t.insert(new ta(44));
-      t.insert(new ta(30));
-      t.insert(new ta(66));
-      t.insert(new ta(32));
-      t.insert(new ta(70));
-      t.insert(new ta(71));
-      t.insert(new ta(67));
+      t.add(new ta(50));
+      t.add(new ta(40));
+      t.add(new ta(41));
+      t.add(new ta(72));
+      t.add(new ta(73));
+      t.add(new ta(45));
+      t.add(new ta(42));
+      t.add(new ta(49));
+      t.add(new ta(34));
+      t.add(new ta(60));
+      t.add(new ta(61));
+      t.add(new ta(62));
+      t.add(new ta(31));
+      t.add(new ta(44));
+      t.add(new ta(30));
+      t.add(new ta(66));
+      t.add(new ta(32));
+      t.add(new ta(70));
+      t.add(new ta(71));
+      t.add(new ta(67));
 	 }
    //Do not allow doubles
-   public static void tinsertDoubles(TwoFourTree t) {
+   public static void taddDoubles(TwoFourTree t) {
 
-      t.insert(50);
-      t.insert(40);
-      t.insert(40);
-      t.insert(60);
-      t.insert(30);
-      t.insert(70);
+      t.add(50);
+      t.add(40);
+      t.add(40);
+      t.add(60);
+      t.add(30);
+      t.add(70);
 	 }
    
    

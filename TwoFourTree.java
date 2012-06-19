@@ -7,6 +7,7 @@ public class TwoFourTree implements SSet<Object> {
 	private TwoFourNode myRootNode = new TwoFourNode(); //Tree needs a root
 	
 
+	//For comparting
 	Comparator c;
 	
 	public TwoFourTree() {
@@ -19,8 +20,26 @@ public class TwoFourTree implements SSet<Object> {
 
 	public boolean belongsTo(Object x) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		TwoFourNode current = myRootNode;
+		
+		
+		//Do Forever
+		while (true) {
+			
+			//Case: item in node
+			if ( current.findElem(x)   > -1) {
+				return true;
+			}
+			//If does not contain and is leaf, then return false;
+			if (current.leaf()) {
+				return false;
+			}
+			current = getNextChild(current,x);
+			
+		}
 	}
+	
 
 	//Find elem in  tree node, return index
 	//XXX DOUBLED
@@ -29,6 +48,8 @@ public class TwoFourTree implements SSet<Object> {
 	{
 		TwoFourNode curNode = myRootNode;
 		int childNumber;
+		
+		//Go down entire length of tree until broken
 		while(true)
 		{
 			if(( childNumber=curNode.findElem(key) ) != -1) //XXX COMPARE KEY
@@ -42,32 +63,43 @@ public class TwoFourTree implements SSet<Object> {
 
 
 
+	//public boolean add(Object x) {
+	//	// TODO Auto-generated method stub
+	//	return false;
+	//}
+
 	//XXX CHANGE NAME
 //	public void insert(long dValue) //XXX long  XXX dvalue
-	public void insert(Object dValue) //XXX long  XXX dvalue
-	{
-		TwoFourNode curNode = myRootNode;
-		Data tempItem = new Data(dValue); //XXX dvalue
+//	public void add(Object dValue) //XXX long  XXX dvalue
+	public boolean add(Object x) { //XXX long  XXX dvalue
+		
+		
+		TwoFourNode current = myRootNode;
+		Object tempItem = x; //XXX dvalue
 
 		while(true)
 		{
-			if( curNode.full() )               // if node full,
-				{
-					split(curNode);                   // split it
-					curNode = curNode.parent();    // back up
-					// search once
-					curNode = getNextChild(curNode, dValue);
+			//Split nodes that are full as we traverse
+			if( current.full() )  {
+					split(current);
+					//Start again from same level, but from left
+					current= getNextChild(current.parent(), x);
 			}  // end if(node is full)
 
-			else if( curNode.leaf() )
-				break;                            // go insert
-			// node is not full, not a leaf; so go to lower level
-			else
-				curNode = getNextChild(curNode, dValue);
+			else if( current.leaf() ) {
+				//We only add to leaves
+				break;
+			}
+			//
+			else {
+				current = getNextChild(current, x);
+			}
 		}  // end while
 
-		curNode.addNewElem(tempItem); 
-	}  // end insert()
+		current .addNewElem(tempItem); 
+	
+		return true; //XXX
+	} 
 
 
 
@@ -84,7 +116,7 @@ public class TwoFourTree implements SSet<Object> {
 //			theValue = (ta) theValue;
 //			if( ((ta)theValue).data < ((ta)theNode.getElem(i).getData()).data) //XXX COMPARABLE
 			//if( theValue < theNode.getElem(i).getData() ) //XXX COMPARABLE
-			if( c.compare(theValue, theNode.getElem(i).getData()) < 0 ) //XXX COMPARABLE
+			if( c.compare(theValue, theNode.getElem(i)) < 0 ) //XXX COMPARABLE
 				return theNode.getChild(i);  // return left child
 		}  // end for                   // we're greater, so
 		return theNode.getChild(i);        // return right child
@@ -154,11 +186,6 @@ public class TwoFourTree implements SSet<Object> {
 		return null;
 	}
 
-	public boolean add(Object x) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public boolean remove(Object x) {
 		// TODO Auto-generated method stub
 		return false;
@@ -201,8 +228,8 @@ public class TwoFourTree implements SSet<Object> {
 
 
 		//Node has 3 elems and four children 
-		Data right = node.remove();
-		Data mid = node.remove();  
+		Object right = node.remove();
+		Object mid = node.remove();  
 
 		//Children 0 and 1 are handled later
 		TwoFourNode c2 = node.removeEdge(2); 
@@ -214,7 +241,7 @@ public class TwoFourTree implements SSet<Object> {
 		if(myRootNode == node)   {
 				myRootNode = new TwoFourNode();
 				parent = myRootNode; 
-				myRootNode.createEdge(0, node);   // connect to parent XXX
+				myRootNode.createEdge(0, node);
 		}
 		//Case Internal Node
 		else {

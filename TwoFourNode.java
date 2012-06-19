@@ -6,14 +6,11 @@ public class TwoFourNode<T> {
 	//Global data
 	protected final TwoFourNode divorcedAndChildless = null;
 	protected TwoFourNode children[] = new TwoFourNode[4];
-	protected Data elems[] = new Data[3]; //FRM BOOK XXX
-
 
 	protected Comparator c;
-	
 
-	//FRM ORIGINAL XXX
-	//private Object[] 		elems; //XXX THIS IS HOW WE WANT TO STORE DATA. SEE TODO
+	private Object[] elems = new Object[3]; //XXX THIS IS HOW WE WANT TO STORE DATA. SEE TODO
+	//protected Data elems[] = new Data[3]; //FRM BOOK XXX
 
 
 	protected TwoFourNode 	parent;
@@ -36,10 +33,9 @@ public class TwoFourNode<T> {
 
 	//Test if leaf
 	public boolean leaf() {
-		TwoFourNode test = children[0];
+		TwoFourNode test = firstChild();
 		if (test == divorcedAndChildless) {
 			return true;
-
 		}else {
 			return false;
 		}
@@ -54,29 +50,33 @@ public class TwoFourNode<T> {
 
 	// delete edge from this node, return it
 	public TwoFourNode removeEdge(int i) {
-		TwoFourNode tmp = children[i];
+		TwoFourNode tmp = getChild(i);
 		children[i] = divorcedAndChildless;
 		return tmp;
 	}
 
-	//Get child from node
-	public TwoFourNode getChild(int i) { 
-		return children[i]; 
-	}
 
 	//Get parent
 	public TwoFourNode parent() {
 		return parent;
 	}
 
+	public TwoFourNode firstChild() {
+		return children[0];
+	}
 
+	//Get child from node
+	public TwoFourNode getChild(int i) { 
+		return children[i]; 
+	}
+	
 	//get Children
 	public TwoFourNode[] getChildren() {
 		return children;
 	}
 
 	//Get object
-	public Data getElem(int i )  {
+	public Object getElem(int i )  {
 		return elems[i];
 	}
 
@@ -90,26 +90,28 @@ public class TwoFourNode<T> {
 	}
 
 	//searches for elem, returns index
-	public int findElem(Object key) {        //XXX LONG and COMPARE
+	public int findElem(Object x) { //key->x       //XXX LONG and COMPARE
 		int flag = -1;
 
 		for(int i=0; i<3; i++)  { 
-				//if(elems[i].getData() == key) { //XXX LONG and COMPARE
-				if( elems[i].getData().equals(key) ) { //XXX LONG and COMPARE
-					flag = i;
-				}
-				else if(elems[i] == null) {
+				if(elems[i] == null) {
 					break;
+				}
+				//if(elems[i].getData() == key) { //XXX LONG and COMPARE
+				//if( elems[i].equals(key) ) { //XXX LONG and COMPARE
+				else if( c.compare(elems[i], x) == 0 ) { //XXX LONG and COMPARE
+					flag = i;
 				}
 		}
 		return flag;
 	} 
 
 	//Remove the right most element
-	public Data remove() {
+	//Queue remove
+	public Object remove() {
 
 		numberOfElems--; 
-		Data itm = elems[numberOfElems]; 
+		Object itm = elems[numberOfElems]; 
 		elems[numberOfElems] = null; 
 		return itm; 
 	}
@@ -117,10 +119,11 @@ public class TwoFourNode<T> {
 	//Add a new element to current TwoFourNode
 	//These nodes shouldn't be full
 	//returns index of where value was added
-	public int addNewElem(Data obj) {
+	public int addNewElem(Object obj) {
 
 
-		Object newKey = obj.getData();        //XXX LONG AND COMPARABLE
+
+		//Object newKey = obj.getData();        //XXX LONG AND COMPARABLE
 
 		//Inc node
 		numberOfElems++;
@@ -132,11 +135,11 @@ public class TwoFourNode<T> {
 					continue; 
 				else {                             
 
-					Object itsKey = elems[i].getData(); //XXX LONG and COMPARE
+					Object k = elems[i]; //XXX LONG and COMPARE
 					//If bigger than, shift left
 					//if(newKey < itsKey) //XXX COMPARABLE
 					//if(((ta)newKey).data < ((ta)itsKey).data) //XXX COMPARABLE
-					if(c.compare(newKey, itsKey) < 0) //XXX COMPARABLE
+					if(c.compare(obj, k ) < 0) //XXX COMPARABLE
 						elems[i+1] = elems[i]; 
 
 					//No more shifting
@@ -154,11 +157,13 @@ public class TwoFourNode<T> {
 
 
 	//XXX DELETE ME!
+	//XXX Output as one string only
+	//XXX conver to .toString
 	public void displayNode()           // format "/24/56/74/"
 	{
 		for(int i=0; i<numberOfElems; i++)
-			elems[i].displayItem();   // "/56"
-		System.out.println("/");         // final "/"
+			System.out.print("|" + elems[i].toString() );   // "/56"
+		System.out.println("|");         // final "/"
 	}
 
 
