@@ -14,15 +14,23 @@ public class test {
 		
 		
 		
-		//tadd(tree );
-		testBelongs(tree);
+		tadd( tree );
+		//testBelongs(tree);
+		//taddDoubles(tree);
+		//tsize( tree );
+		//tclear(tree);
 		
 		tree .displayTree(); //XXX
 		System.out.println("Complete");
  
 		
 	}
-   public static void tadd2(TwoFourTree t) {
+   public static void tsize(TwoFourTree t) {
+	   System.out.println(t.size());
+	   
+   }
+   public static void tclear(TwoFourTree t) {
+	   t.clear();
 	   
    }
    
@@ -31,33 +39,43 @@ public class test {
       t.add(new ta(50));
       t.add(new ta(40));
       t.add(new ta(41));
+      t.add(new ta(119));
       t.add(new ta(72));
       t.add(new ta(73));
       t.add(new ta(45));
       t.add(new ta(42));
+      t.add(new ta(43));
       t.add(new ta(49));
       t.add(new ta(34));
+      t.add(new ta(99));
+      t.add(new ta(109));
       t.add(new ta(60));
       t.add(new ta(61));
       t.add(new ta(62));
       t.add(new ta(31));
       t.add(new ta(44));
+      t.add(new ta(47));
       t.add(new ta(30));
+      t.add(new ta(80));
       t.add(new ta(66));
+      t.add(new ta(89));
+      t.add(new ta(65));
       t.add(new ta(32));
       t.add(new ta(70));
       t.add(new ta(71));
       t.add(new ta(67));
+      t.add(new ta(119)); //Double
+      //29-1=28
 	 }
    //Do not allow doubles
    public static void taddDoubles(TwoFourTree t) {
 
       t.add(50);
       t.add(40);
-      t.add(40);
       t.add(60);
       t.add(30);
       t.add(70);
+      System.out.println(t.add(40) == false);
 	 }
    
    public static void testBelongs(TwoFourTree t) {
@@ -84,6 +102,9 @@ public class test {
 		System.out.println(t.belongsTo(new ta(1000)) == false);
    }
    
+   public static void tgetComp(TwoFourTree tree) { 
+	   System.out.println(tree.comparator());
+   }
 
    public static void tComp(TwoFourTree tree) {
 	   

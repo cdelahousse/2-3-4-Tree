@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class TwoFourTree implements SSet<Object> {
 
-	private TwoFourNode myRootNode = new TwoFourNode(); //Tree needs a root
+	protected TwoFourNode myRootNode = new TwoFourNode(); //Tree needs a root
 	
 
 	//For comparting
@@ -35,7 +35,7 @@ public class TwoFourTree implements SSet<Object> {
 			if (current.leaf()) {
 				return false;
 			}
-			current = getNextChild(current,x);
+			current = getChildSibling(current,x);
 			
 		}
 	}
@@ -57,25 +57,23 @@ public class TwoFourTree implements SSet<Object> {
 			else if( curNode.leaf() )
 				return -1;
 			else
-				curNode = getNextChild(curNode, key);
+				curNode = getChildSibling(curNode, key);
 		}  // end while
 	}
 
 
 
-	//public boolean add(Object x) {
-	//	// TODO Auto-generated method stub
-	//	return false;
-	//}
-
-	//XXX CHANGE NAME
-//	public void insert(long dValue) //XXX long  XXX dvalue
-//	public void add(Object dValue) //XXX long  XXX dvalue
-	public boolean add(Object x) { //XXX long  XXX dvalue
+	//Add. Return false if already there
+	public boolean add(Object x) { 
 		
+		//Dissallow doubles
+		//Needs to have check here here because of splits
+		if (belongsTo(x) == true) {
+			return false;
+		}
 		
 		TwoFourNode current = myRootNode;
-		Object tempItem = x; //XXX dvalue
+		Object tempItem = x; 
 
 		while(true)
 		{
@@ -83,43 +81,41 @@ public class TwoFourTree implements SSet<Object> {
 			if( current.full() )  {
 					split(current);
 					//Start again from same level, but from left
-					current= getNextChild(current.parent(), x);
-			}  // end if(node is full)
+					current= getChildSibling(current.parent(), x);
+					continue;
+			} 
 
-			else if( current.leaf() ) {
-				//We only add to leaves
+			if( current.leaf() ) {
 				break;
 			}
-			//
-			else {
-				current = getNextChild(current, x);
-			}
-		}  // end while
+			
+			
+			current = getChildSibling(current, x);
+		} 
 
-		current .addNewElem(tempItem); 
+		current.addNewElem(tempItem); 
 	
+		//Assume successful insertion
 		return true; //XXX
 	} 
 
 
 
 
-	// gets appropriate child of node during search for value
-//	public TwoFourNode getNextChild(TwoFourNode theNode, long theValue) //XXX LONG
-	public TwoFourNode getNextChild(TwoFourNode theNode, Object theValue) //XXX LONG
-	{
-		int i;
-		// assumes node is not empty, not full, not a leaf
-		int numElems = theNode.howManyElems();
-		for(i=0; i<numElems; i++)          // for each item in node
-		{                               // are we less?
-//			theValue = (ta) theValue;
-//			if( ((ta)theValue).data < ((ta)theNode.getElem(i).getData()).data) //XXX COMPARABLE
-			//if( theValue < theNode.getElem(i).getData() ) //XXX COMPARABLE
-			if( c.compare(theValue, theNode.getElem(i)) < 0 ) //XXX COMPARABLE
-				return theNode.getChild(i);  // return left child
-		}  // end for                   // we're greater, so
-		return theNode.getChild(i);        // return right child
+	//if you supply a parent and an object, you'll that parent's most likely 
+	//child that'll house the object
+	protected TwoFourNode getChildSibling(TwoFourNode parent, Object x) {
+		
+		int numElems = parent.howManyElems();
+		//Iterate until right most
+		for(int index=0; index<numElems; index++) {
+			
+			if( c.compare(x, parent.getElem(index)) < 0 ) {
+				return parent.getChild(index); 
+			}
+		} 
+		//Right most child ifnot found elsewhere
+		return parent.getChild(numElems); 
 	}
 
 
@@ -161,16 +157,21 @@ public class TwoFourTree implements SSet<Object> {
 	}
 	
 	
-	//TEst ME!!!
+	//Returns comparator
 	public Comparator<? super Object> comparator() {
 		return c;
 	}
 
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return myRootNode.size();
 	}
 
+	//public TwoFourNode findNextNode(TwoFourNode current) {
+	//	TwoFourNode tmp = current; 
+	//	Object x = 
+		
+	//	r
+	//}
 	public Object find(Object x) {
 		// TODO Auto-generated method stub
 		return null;
@@ -191,9 +192,10 @@ public class TwoFourTree implements SSet<Object> {
 		return false;
 	}
 
+	//clears tree
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		 myRootNode = new TwoFourNode(); //Tree needs a root
+		 //YAY FOR GARBAGE COLLECTION!
 	}
 
 	@SuppressWarnings("unchecked")
@@ -224,7 +226,7 @@ public class TwoFourTree implements SSet<Object> {
 	//Helper function
 	//As you go down the search path, we split every full node
 	//Only called when node is full
-	private void split(TwoFourNode node)  {
+	protected void split(TwoFourNode node)  {
 
 
 		//Node has 3 elems and four children 

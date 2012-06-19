@@ -30,6 +30,24 @@ public class TwoFourNode<T> {
 	public int howManyElems() {
 		return numberOfElems;
 	}
+	
+	//Return number of elements on this node and lower 
+	public int size() {
+		//If this is a leaf return number of elements
+		if (this.leaf() == true) {
+			return numberOfElems;
+		}
+		
+		int sum = numberOfElems;
+		//Add size of all children
+		for (int i = 0; i < numberOfElems+1; i++) {
+			sum += getChild(i).size();
+		}
+		
+		
+		
+		return sum;
+	}
 
 	//Test if leaf
 	public boolean leaf() {
@@ -97,14 +115,25 @@ public class TwoFourNode<T> {
 				if(elems[i] == null) {
 					break;
 				}
-				//if(elems[i].getData() == key) { //XXX LONG and COMPARE
-				//if( elems[i].equals(key) ) { //XXX LONG and COMPARE
-				else if( c.compare(elems[i], x) == 0 ) { //XXX LONG and COMPARE
+				else if( c.compare(elems[i], x) == 0 ) { 
 					flag = i;
 				}
 		}
 		return flag;
 	} 
+	
+	//Find object that is greater than X, but less than max 
+//	public Object findG(Object x, Object max) {
+//		for(int i=0; i<3; i++)  { 
+//				if(elems[i] == null) {
+//					break;
+//				}
+//				else if( c.compare(elems[i], x) == 0 ) { 
+//					flag = i;
+//				}
+//		}
+//		
+//	}
 
 	//Remove the right most element
 	//Queue remove
