@@ -9,6 +9,11 @@ public class TwoFourTree implements SSet<Object> {
 
 
 
+	public boolean belongsTo(Object x) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	//Find elem in  tree node, return index
 	//XXX DOUBLED
 	public int find(long key) //XXX LONG COMPARE OBJECT
@@ -172,11 +177,6 @@ public class TwoFourTree implements SSet<Object> {
 	}
 
 	public boolean subsetOf(SSet sset) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean belongsTo(Object x) {
 		// TODO Auto-generated method stub
 		return false;
 	}

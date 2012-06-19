@@ -1,16 +1,20 @@
 import java.io.*;
 class Tree234App
    {
-   public static void main(String[] args) throws IOException
-      {
-      long value;
-      TwoFourTree theTree = new TwoFourTree();
-      
-      
-      
+   public static void main(String[] args) throws IOException {
 
-      
-      tinsert(theTree);
+
+
+     //System.out.println(
+		long value;
+		TwoFourTree theTree = new TwoFourTree();
+		
+
+		
+		
+
+		
+		tinsert(theTree);
       
 
 		theTree.displayTree();

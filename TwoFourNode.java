@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 
 public class TwoFourNode {
 	
@@ -6,14 +8,19 @@ public class TwoFourNode {
 	protected TwoFourNode children[] = new TwoFourNode[4];
 	protected Data elems[] = new Data[3]; //FRM BOOK XXX
 
+
+	protected Comparator c;
+	
+
 	//FRM ORIGINAL XXX
 	//private Object[] 		elems; //XXX THIS IS HOW WE WANT TO STORE DATA. SEE TODO
 
 
 	protected TwoFourNode 	parent;
 	protected int	numberOfElems;
-	public void TwoFourNode() {
+	public TwoFourNode() {
 		numberOfElems = 0;
+		c = new DefaultComparator();
 	}
 
 	//elems on node
