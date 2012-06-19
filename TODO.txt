@@ -1,0 +1,27 @@
+
+Get it to work with Ints
+
+Eliminate need for Data class
+
+Disallow same values --> maybe via a contains method
+
+Long and compare
+
+Need to create private contains() method for all math set methods. May be one already
+
+Remove all comments
+
+Sort functions around (ie. move lower)
+Rename some functions
+Change the way some of them work
+
+
+	//XXX change childNum var names to i
+
+possible deletion: delete and just rebuild tree
+
+remove all unnecessary white space
+
+private to protected
+
+change item to elem
