@@ -9,16 +9,15 @@ public class TwoFourTree implements SSet<Object> {
 
 
 
-
-
-//START BOOK XXX
+	//Find elem in  tree node, return index
+	//XXX DOUBLED
 	public int find(long key) //XXX LONG COMPARE OBJECT
 	{
 		TwoFourNode curNode = myRootNode;
 		int childNumber;
 		while(true)
 		{
-			if(( childNumber=curNode.findElem(key) ) != -1)
+			if(( childNumber=curNode.findElem(key) ) != -1) //XXX COMPARE KEY
 				return childNumber;           
 			else if( curNode.leaf() )
 				return -1;
@@ -26,8 +25,10 @@ public class TwoFourTree implements SSet<Object> {
 				curNode = getNextChild(curNode, key);
 		}  // end while
 	}
-	// -------------------------------------------------------------
-	// insert a DataItem
+
+
+
+	//XXX CHANGE NAME
 	public void insert(long dValue) //XXX long  XXX dvalue
 	{
 		TwoFourNode curNode = myRootNode;
