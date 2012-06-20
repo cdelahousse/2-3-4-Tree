@@ -336,14 +336,18 @@ public class TwoFourTree implements SSet<Object> {
 		return false;
 	}
 
+	//XXX
 	public TwoFourNode getRoot() {
 		return myRootNode;
 	}
-	//XXX DOUBLE CHECK RETURN VALUE ---> EMPTY SET AS INTERSECTION?
+	
+	
 	//Intersect two sets
 	public boolean intersectWith(SSet sset) {
 		
-		if (size() == 0 ) {
+		
+		//Empty set
+		if (size() == 0 || sset.size() == 0 ) {
 			
 			myRootNode = new TwoFourNode();
 			return true;
@@ -354,22 +358,19 @@ public class TwoFourTree implements SSet<Object> {
 		
 		TwoFourTree nt = new TwoFourTree();
 		
-		////New root to build on
-		//myRootNode = new TwoFourNode();
-		
 		Object obj = findSmallest(); 
+		
 		//Iterate over every element
 		while ( obj != null) {
 			
-			if (sset.belongsTo(obj) == false) {
-				continue;
+			if (sset.belongsTo(obj) == true) {
+				nt.add(obj);
 			}
-			nt.add(obj);
 			obj = findG(obj) ;
-			System.out.println("Ah");
 		}
 		
-		myRootNode = nt.getRoot();
+		myRootNode = nt.getRoot(); //XXX
+		
 		//If empty set is result
 		if (size() == 0) {
 			//Reset old root

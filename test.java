@@ -25,9 +25,9 @@ public class test {
 		//tfind(tree);
 		//tfindG(tree);
 		//tsubset(tree);
-		//tintersect();
+		tintersect();
 		
-		tree .displayTree(); //XXX
+		//tree .displayTree(); //XXX
 		//tComp(tree);
 		System.out.println("Complete");
  
@@ -46,15 +46,23 @@ public class test {
       nt.add(new ta(99));
 		
       TwoFourTree tt = new TwoFourTree();
+      
       tt.add(new ta(45));
       tt.add(new ta(42));
       tt.add(new ta(43));
+      tt.add(new ta(99));
       tt.add(new ta(88));
+      tt.add(new ta(88));
+      tt.add(new ta(79));
       
       nt.intersectWith(tt);
       
       nt.displayTree();
+      
 	   System.out.println(nt.size());
+      nt.clear();
+      nt.intersectWith(tt);
+      nt.displayTree();
 		
 	}
 	public static void tsubset(TwoFourTree t) {
