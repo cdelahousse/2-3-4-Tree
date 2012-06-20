@@ -1,6 +1,9 @@
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import javax.swing.tree.TreeNode;
 
 public class TwoFourTree implements SSet<Object> {
 
@@ -19,8 +22,6 @@ public class TwoFourTree implements SSet<Object> {
 
 
 	public boolean belongsTo(Object x) {
-		// TODO Auto-generated method stub
-		
 		TwoFourNode current = myRootNode;
 		
 		
@@ -43,6 +44,7 @@ public class TwoFourTree implements SSet<Object> {
 
 	//Find elem in  tree node, return index
 	//XXX DOUBLED
+	//XXX May NOT NEED
 	//public int find(long key) //XXX LONG COMPARE OBJECT
 	public int findE(Object key) //XXX LONG COMPARE OBJECT
 	{
@@ -150,11 +152,6 @@ public class TwoFourTree implements SSet<Object> {
 
 
 
-	public Iterator<? super Object> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	
 	//Returns comparator
 	public Comparator<? super Object> comparator() {
@@ -165,16 +162,6 @@ public class TwoFourTree implements SSet<Object> {
 		return myRootNode.size();
 	}
 
-	//public TwoFourNode findNextNode(TwoFourNode current) {
-	//	TwoFourNode tmp = current; 
-	//	Object x = 
-		
-	//	r
-	//}
-	
-	//
-	//protected findNode()
-	
 	
 	//Find smallest node
 	protected TwoFourNode findNodeSmallest (TwoFourNode parent) {
@@ -222,6 +209,7 @@ public class TwoFourTree implements SSet<Object> {
 		
 	}
 	
+	//HELPER METHOD
 	//Find the next object greater (but not equal to) x
 	//ie. find next element on tree
 	protected Object findG(Object x) {
@@ -325,14 +313,59 @@ public class TwoFourTree implements SSet<Object> {
 		 //YAY FOR GARBAGE COLLECTION!
 	}
 
-	@SuppressWarnings("unchecked")
+	//Returns iterator. If null is inputed, the iterator will be index at smallest element
 	public Iterator iterator(Object x) {
-		// TODO Auto-generated method stub
-		return null;
+		return new TreeIter(x);
 	}
+	//Same as above, but with no args. Starts from smallest
+	public Iterator<? super Object> iterator() {
+		return new TreeIter(findSmallest());
+	}
+	
+	class TreeIter implements Iterator {
+		Object next;
+		Boolean last = false;
+		
+		public TreeIter(Object x) {
+			if (c.compare(x, findLargest()) > 0 )
+				throw new TwoFourNodeException("Can not start to iterate after last element of the set") ;
+			if (c.compare(x, findLargest()) == 0 )
+				last = true;
+			//Returns smallest if x == null
+			next = findGE(x);
+		}
+
+		public boolean hasNext() {
+			if (next == null) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		public Object next() {
+			Object toReturn = next;
+			if ( next == null) {
+				throw new NoSuchElementException("Has no next element");
+			}
+			if (last == true) {
+				next = null;
+			} else {
+				next = findG(next);
+			}
+			return toReturn;
+		}
+
+		//XXX
+		public void remove() {
+		}
+	
+	}
+	
 
 	public boolean unionWith(SSet sset) {
-		// TODO Auto-generated method stub
+//		Iterator iter = sset.iterator();
+//		while (iter.has)
 		return false;
 	}
 
@@ -388,7 +421,7 @@ public class TwoFourTree implements SSet<Object> {
 		return false;
 	}
 
-	//Is this set a subsite of sset?
+	//Is this set a subset of sset?
 	public boolean subsetOf(SSet sset) {
 		
 		//Empty set is always a subset of any set

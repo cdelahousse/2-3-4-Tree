@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.Iterator;
 public class test {
 
 	/**
@@ -25,9 +26,10 @@ public class test {
 		//tfind(tree);
 		//tfindG(tree);
 		//tsubset(tree);
-		tintersect();
+		//tintersect();
+		titer(tree);
 		
-		//tree .displayTree(); //XXX
+		tree .displayTree(); //XXX
 		//tComp(tree);
 		System.out.println("Complete");
  
@@ -65,6 +67,25 @@ public class test {
       nt.displayTree();
 		
 	}
+	public static void titer(TwoFourTree t) {
+		Iterator iter = t.iterator(new ta(98));
+		
+	   System.out.println(iter.next());
+	   System.out.println(iter.hasNext());
+	   System.out.println(iter.next());
+	   System.out.println(iter.hasNext());
+	   System.out.println(iter.next());
+	   System.out.println(iter.hasNext());
+//	   System.out.println(iter.next());
+	   
+	   
+	//	iter = t.iterator(new ta(1000));
+		iter = t.iterator(new ta(119));
+	   System.out.println(iter.next());
+		
+		
+	}
+	
 	public static void tsubset(TwoFourTree t) {
 		TwoFourTree nt = new TwoFourTree();
 		
