@@ -147,6 +147,40 @@ public class TwoFourNode<T> {
 		}
 		return flag;
 	}
+    //Find object that is less than x, but more than min
+	public int findLT(Object x, Object min) {
+	
+		int flag = -1;
+		for(int i=2; i>=0; i--)  { 
+			if(elems[i] == null) {
+				continue;
+			}
+			else if( (c.compare(elems[i], x) < 0) && (c.compare(elems[i], min) > 0)  ) { 
+				flag = i;
+				break;
+			}
+		}
+		return flag;
+	}
+	
+	
+	
+	
+	
+	//Find object that is less than x, but more than min
+//	public int findLT(Object x, Object min) {
+//		int flag = -1;
+//		for(int i=2; i >= 0; i--)  {  //Start at last index
+//			if(elems[i] == null) {
+//				break;
+//			}
+//			else if( (c.compare(elems[i], x) < 0) && (c.compare(elems[i], min) > 0)  ) { 
+//				flag = i;
+//				break;
+//			}
+//		}
+//		return flag;
+//	}
 	//Greater or equal to x, less than max
 	public int findGE(Object x, Object max) {
 		int flag = -1;

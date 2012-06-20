@@ -237,9 +237,6 @@ public class TwoFourTree implements SSet<Object> {
 			if (index > -1) {
 				max = current.getElem(index); //Bigger than or equals to x
 			}
-//			if (c.compare(max,x) == 0) {
-//				return max;
-//			}
 			if (current.leaf()) {
 				return max;
 			}
@@ -295,6 +292,19 @@ public class TwoFourTree implements SSet<Object> {
 		return find(x); 
 	}
 
+		
+	protected TwoFourNode getPrevChildSibling(TwoFourNode parent, Object x) {
+		int numElems = parent.howManyElems();
+		//Iterate until right most
+		for(int index=0; index<numElems; index++) {
+			
+			if( c.compare(x, parent.getElem(index)) <= 0 ) {
+				return parent.getChild(index); 
+			}
+		} 
+		//Right most child ifnot found elsewhere
+		return parent.getChild(numElems); 
+	}
 	//XXX
 	public Object findLT(Object x) {
 		
@@ -311,25 +321,34 @@ public class TwoFourTree implements SSet<Object> {
 		if (c.compare( x,min) <= -1 ) {
 			return null;
 		}
+		//int level = 0;//
 		
         while (true) {
+        	//System.out.println("level: " + level);//XXX
         	
-			//index greater or eq elem
+			//index  smallerthan (NOT EQ TO) x from node
 	        int index = current.findLT(x,min);
+	        
+	        //System.out.println("Index: " + index); // XXX
         
+	        //If found, assign
 			if (index > -1) {
-				min = current.getElem(index); //Bigger than or equals to x
+				min = current.getElem(index); 
+		        //System.out.println("	found, MIN: " + current.getElem(index)); // XXX
 			}
-			if (c.compare(min,x) == 0) {
+			
+			//If the node was a leaf and not found in it, return min element  b/c can't traverse anymore
+			if ( current.leaf()) {
+		        //System.out.print(" isleaf: " ); // XXX
+		        current.displayNode();
+		        
 				return min;
 			}
-			if (current.leaf()) {
-				return min;
-			}
-			current = getChildSibling(current,x);
-        }
-		// TODO Auto-generated method stub
-		//return null;
+			
+			//level++;
+			//Continue traversing
+			current = getPrevChildSibling(current,x);
+       }
 	}
 
 	//XXX
@@ -394,6 +413,7 @@ public class TwoFourTree implements SSet<Object> {
 	}
 	
 
+	//Unions with sset
 	public boolean unionWith(SSet sset) {
 		//Nothing to union
 		if (sset.size() == 0) {

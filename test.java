@@ -22,8 +22,8 @@ public class test {
 		//tclear(tree);
 		
 		//tfindGE(tree);
-		//tfindLT(tree);
-		tfind(tree);
+		tfindLT(tree);
+		//tfind(tree);
 		//tfindG(tree);
 		//tsubset(tree);
 		//tintersect();
@@ -31,12 +31,33 @@ public class test {
 		//tunion();
 		
 		tree .displayTree(); //XXX
-		tComp(tree);
+		//tComp(tree);
 		System.out.println("Complete");
  
 		
 	}
 	
+   public static void tfindLT(TwoFourTree t) {
+	   
+	   //Edge casese
+	  // System.out.println(t.findLT(new ta(119)));
+	  // System.out.println(t.findLT(new ta(120)));
+//	   System.out.println(t.findLT(new ta(0)));
+	   //System.out.println(t.findLT(null));
+	   
+	   
+	   System.out.println(t.findLT(new ta(41)));
+	   System.out.println(t.findLT(new ta(40)));
+	   System.out.println(t.findLT(new ta(42)));
+	   System.out.println(t.findLT(new ta(49)));
+	   System.out.println(t.findLT(new ta(73)));
+	   System.out.println(t.findLT(new ta(66)));
+	   System.out.println(t.findLT(new ta(90)));
+	   System.out.println(t.findLT(new ta(49)));
+	   System.out.println(t.findLT(new ta(60)));
+	   System.out.println(t.findLT(new ta(61)));
+	   System.out.println(t.findLT(new ta(62)));
+   }
 	public static void tunion() {
 		TwoFourTree nt = new TwoFourTree();
       nt.add(new ta(45));
@@ -176,10 +197,6 @@ public class test {
    public static void tfindGE(TwoFourTree t) {
 	   
 	   System.out.println(t.findGE(null));
-   }
-   public static void tfindLT(TwoFourTree t) {
-	   
-	   System.out.println(t.findLT(null));
    }
    public static void tfind(TwoFourTree t) {
 	   
