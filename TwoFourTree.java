@@ -258,8 +258,9 @@ public class TwoFourTree implements SSet<Object> {
 		Object max = findLargest();
 		
 		//if x is bigger than biggest. There is no bigger ones to return
-		if (c.compare(max, x) < -1)
+		if (c.compare(max, x) <= -1){
 			return null;
+		}
 		
 		
 		//Root
@@ -296,11 +297,39 @@ public class TwoFourTree implements SSet<Object> {
 
 	//XXX
 	public Object findLT(Object x) {
+		
 		if (x == null) {
 			return findLargest();
 		}
+		
+		//Root
+		TwoFourNode current = myRootNode;
+		
+		Object min =  findSmallest();
+		
+		//if x is smaller than smallest. There is no bigger ones to return
+		if (c.compare( x,min) <= -1 ) {
+			return null;
+		}
+		
+        while (true) {
+        	
+			//index greater or eq elem
+	        int index = current.findLT(x,min);
+        
+			if (index > -1) {
+				min = current.getElem(index); //Bigger than or equals to x
+			}
+			if (c.compare(min,x) == 0) {
+				return min;
+			}
+			if (current.leaf()) {
+				return min;
+			}
+			current = getChildSibling(current,x);
+        }
 		// TODO Auto-generated method stub
-		return null;
+		//return null;
 	}
 
 	//XXX

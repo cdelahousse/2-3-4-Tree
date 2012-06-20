@@ -23,15 +23,15 @@ public class test {
 		
 		//tfindGE(tree);
 		//tfindLT(tree);
-		//tfind(tree);
+		tfind(tree);
 		//tfindG(tree);
 		//tsubset(tree);
 		//tintersect();
 		//titer(tree);
-		tunion();
+		//tunion();
 		
-		//tree .displayTree(); //XXX
-		//tComp(tree);
+		tree .displayTree(); //XXX
+		tComp(tree);
 		System.out.println("Complete");
  
 		
@@ -199,7 +199,9 @@ public class test {
 	   System.out.println(t.find(new ta(31))); 
 	   System.out.println(t.find(new ta(30))); 
 	   System.out.println(t.find(new ta(-1))); 
-	   System.out.println(t.find(new ta(1000))); //null
+	   System.out.println(t.find(new ta(1000)));
+	   System.out.println(t.find(new ta(119))); 
+	   System.out.println(t.find(new ta(120))); //Null
    }
    
    public static void tadd(TwoFourTree t) {
