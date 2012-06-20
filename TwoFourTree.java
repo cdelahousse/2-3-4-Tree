@@ -46,22 +46,22 @@ public class TwoFourTree implements SSet<Object> {
 	//XXX DOUBLED
 	//XXX May NOT NEED
 	//public int find(long key) //XXX LONG COMPARE OBJECT
-	public int findE(Object key) //XXX LONG COMPARE OBJECT
-	{
-		TwoFourNode curNode = myRootNode;
-		int childNumber;
-		
-		//Go down entire length of tree until broken
-		while(true)
-		{
-			if(( childNumber=curNode.findElem(key) ) != -1) //XXX COMPARE KEY
-				return childNumber;           
-			else if( curNode.leaf() )
-				return -1;
-			else
-				curNode = getChildSibling(curNode, key);
-		}  // end while
-	}
+	//public int findE(Object key) //XXX LONG COMPARE OBJECT
+	//{
+	//	TwoFourNode curNode = myRootNode;
+	//	int childNumber;
+	//	
+	//	//Go down entire length of tree until broken
+	//	while(true)
+	//	{
+	//		if(( childNumber=curNode.findElem(key) ) != -1) //XXX COMPARE KEY
+	//			return childNumber;           
+	//		else if( curNode.leaf() )
+	//			return -1;
+	//		else
+	//			curNode = getChildSibling(curNode, key);
+	//	}  // end while
+	//}
 
 
 
@@ -294,6 +294,7 @@ public class TwoFourTree implements SSet<Object> {
 		return find(x); 
 	}
 
+	//XXX
 	public Object findLT(Object x) {
 		if (x == null) {
 			return findLargest();
@@ -302,6 +303,7 @@ public class TwoFourTree implements SSet<Object> {
 		return null;
 	}
 
+	//XXX
 	public boolean remove(Object x) {
 		// TODO Auto-generated method stub
 		return false;
@@ -364,12 +366,26 @@ public class TwoFourTree implements SSet<Object> {
 	
 
 	public boolean unionWith(SSet sset) {
-//		Iterator iter = sset.iterator();
-//		while (iter.has)
-		return false;
+		//Nothing to union
+		if (sset.size() == 0) {
+			return true;
+		}
+		Iterator iter = sset.iterator();
+		Object obj;
+		while (iter.hasNext()) {
+			obj = iter.next();
+			//add() does doubles checking
+			add(obj);
+		}
+		if (sset.size() == 0) {
+			//Something went wrong
+			return false;
+		}
+		
+		return true;
 	}
 
-	//XXX
+	//XXX HACK!
 	public TwoFourNode getRoot() {
 		return myRootNode;
 	}
@@ -377,7 +393,6 @@ public class TwoFourTree implements SSet<Object> {
 	
 	//Intersect two sets
 	public boolean intersectWith(SSet sset) {
-		
 		
 		//Empty set
 		if (size() == 0 || sset.size() == 0 ) {
@@ -416,6 +431,7 @@ public class TwoFourTree implements SSet<Object> {
 		return true;
 	}
 
+	//XXX
 	public boolean differenceWith(SSet sset) {
 		// TODO Auto-generated method stub
 		return false;

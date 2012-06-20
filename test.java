@@ -9,7 +9,7 @@ public class test {
 	public static <T> void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		TwoFourTree tree = new TwoFourTree(new DefaultComparator());
+		TwoFourTree tree = new TwoFourTree();
 		
 		//tComp(tree);
 		
@@ -27,15 +27,30 @@ public class test {
 		//tfindG(tree);
 		//tsubset(tree);
 		//tintersect();
-		titer(tree);
+		//titer(tree);
+		tunion();
 		
-		tree .displayTree(); //XXX
+		//tree .displayTree(); //XXX
 		//tComp(tree);
 		System.out.println("Complete");
  
 		
 	}
 	
+	public static void tunion() {
+		TwoFourTree nt = new TwoFourTree();
+      nt.add(new ta(45));
+      nt.add(new ta(42));
+      nt.add(new ta(43));
+		
+      TwoFourTree tt = new TwoFourTree();
+      tt.add(new ta(88));
+      tt.add(new ta(87));
+      tt.add(new ta(79));
+      
+      tt.unionWith(nt);
+      tt.displayTree(); //XXX
+	}
 	public static void tintersect() {
 		
 		TwoFourTree nt = new TwoFourTree();
@@ -64,7 +79,7 @@ public class test {
 	   System.out.println(nt.size());
       nt.clear();
       nt.intersectWith(tt);
-      nt.displayTree();
+      nt.displayTree(); //XXX
 		
 	}
 	public static void titer(TwoFourTree t) {
@@ -81,6 +96,9 @@ public class test {
 	   
 	//	iter = t.iterator(new ta(1000));
 		iter = t.iterator(new ta(119));
+	   System.out.println(iter.next());
+	   System.out.println(iter.hasNext());
+		iter = t.iterator();
 	   System.out.println(iter.next());
 		
 		
