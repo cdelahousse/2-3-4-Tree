@@ -20,9 +20,82 @@ public class test {
 		//tsize( tree );
 		//tclear(tree);
 		
+		//tfindGE(tree);
+		//tfindLT(tree);
+		//tfind(tree);
+		//tfindG(tree);
+		//tsubset(tree);
+		//tintersect();
+		
 		tree .displayTree(); //XXX
+		//tComp(tree);
 		System.out.println("Complete");
  
+		
+	}
+	
+	public static void tintersect() {
+		
+		TwoFourTree nt = new TwoFourTree();
+		
+      nt.add(new ta(45));
+      nt.add(new ta(42));
+      nt.add(new ta(43));
+      nt.add(new ta(49));
+      nt.add(new ta(34));
+      nt.add(new ta(99));
+		
+      TwoFourTree tt = new TwoFourTree();
+      tt.add(new ta(45));
+      tt.add(new ta(42));
+      tt.add(new ta(43));
+      tt.add(new ta(88));
+      
+      nt.intersectWith(tt);
+      
+      nt.displayTree();
+	   System.out.println(nt.size());
+		
+	}
+	public static void tsubset(TwoFourTree t) {
+		TwoFourTree nt = new TwoFourTree();
+		
+	   System.out.println(nt.size());
+	   //Empty set test
+	   System.out.println(nt.subsetOf(t));
+	   
+		
+      nt.add(new ta(45));
+      nt.add(new ta(42));
+      nt.add(new ta(43));
+      nt.add(new ta(49));
+      nt.add(new ta(34));
+      nt.add(new ta(99));
+      nt.add(new ta(109));
+      nt.add(new ta(60));
+      nt.add(new ta(61));
+      nt.add(new ta(62));
+      nt.add(new ta(31));
+      nt.add(new ta(44));
+      nt.add(new ta(47));
+      nt.add(new ta(30));
+      nt.add(new ta(80));
+      
+	   System.out.println(nt.size());
+	   System.out.println(nt.subsetOf(t)); //true
+	  
+	   
+	   System.out.println(nt.belongsTo(new ta(1)) == false);
+	   
+	   //nt.add(new ta(1));
+	   //System.out.println(nt.subsetOf(t) == false);
+	   
+	   //nt.add(new ta(1011));
+	   //System.out.println(nt.subsetOf(t) == false);
+	   
+	   nt.add(new ta(85));
+	   System.out.println(nt.subsetOf(t) == false);
+		
 		
 	}
    public static void tsize(TwoFourTree t) {
@@ -31,7 +104,55 @@ public class test {
    }
    public static void tclear(TwoFourTree t) {
 	   t.clear();
+   }
+   
+   public static void tfindG(TwoFourTree t) {
 	   
+	   System.out.println(t.findG(new ta(45))); //47
+	   System.out.println(t.findG(new ta(46)));//47
+	   System.out.println(t.findG(new ta(47)));//49
+	   System.out.println(t.findG(new ta(70)));//71
+	   System.out.println(t.findG(new ta(71)));//72
+	   System.out.println(t.findG(new ta(72)));//73
+	   System.out.println(t.findG(new ta(73)));//80
+	   
+	   
+	   
+	   System.out.println(t.findG(new ta(119)));//null
+	   System.out.println(t.findG(new ta(30)));//32
+	   System.out.println(t.findG(new ta(29)));//30
+	   System.out.println(t.findG(new ta(45))); //root   //47
+	   System.out.println(t.findG(new ta(72))); //root   //73
+	   System.out.println(t.findG(new ta(80)));//89 
+	   
+   }
+   public static void tfindGE(TwoFourTree t) {
+	   
+	   System.out.println(t.findGE(null));
+   }
+   public static void tfindLT(TwoFourTree t) {
+	   
+	   System.out.println(t.findLT(null));
+   }
+   public static void tfind(TwoFourTree t) {
+	   
+//	   System.out.println(t.find(null));
+//	   System.out.println(t.find(new ta(1000000)));
+	   System.out.println(t.find(new ta(46)));
+	   System.out.println(t.find(new ta(47)));
+	   System.out.println(t.find(new ta(48)));
+	   System.out.println(t.find(new ta(109))); 
+	   System.out.println(t.find(new ta(119))); 
+	   System.out.println(t.find(new ta(0))); 
+	   System.out.println(t.find(new ta(108))); 
+	   System.out.println(t.find(new ta(47))); 
+	   System.out.println(t.find(new ta(81))); 
+	   System.out.println(t.find(new ta(79))); 
+	   System.out.println(t.find(new ta(80))); 
+	   System.out.println(t.find(new ta(31))); 
+	   System.out.println(t.find(new ta(30))); 
+	   System.out.println(t.find(new ta(-1))); 
+	   System.out.println(t.find(new ta(1000))); //null
    }
    
    public static void tadd(TwoFourTree t) {
@@ -119,4 +240,5 @@ public class test {
 		System.out.println(c.compare(a,b));
 		System.out.println(c.compare(b,a));
    }
+   
 }

@@ -82,6 +82,9 @@ public class TwoFourNode<T> {
 	public TwoFourNode firstChild() {
 		return children[0];
 	}
+	public TwoFourNode lastChild() {
+		return children[numberOfElems];
+	}
 
 	//Get child from node
 	public TwoFourNode getChild(int i) { 
@@ -96,6 +99,14 @@ public class TwoFourNode<T> {
 	//Get object
 	public Object getElem(int i )  {
 		return elems[i];
+	}
+	//Get smallest Elem
+	public Object smallestElem()  {
+		return elems[0];
+	}
+	//Get largest Elem
+	public Object largestElem()  {
+		return elems[numberOfElems-1];
 	}
 
 	//public boolean empty
@@ -123,17 +134,34 @@ public class TwoFourNode<T> {
 	} 
 	
 	//Find object that is greater than X, but less than max 
-//	public Object findG(Object x, Object max) {
-//		for(int i=0; i<3; i++)  { 
-//				if(elems[i] == null) {
-//					break;
-//				}
-//				else if( c.compare(elems[i], x) == 0 ) { 
-//					flag = i;
-//				}
-//		}
-//		
-//	}
+	public int findG(Object x, Object max) {
+		int flag = -1;
+		for(int i=0; i<3; i++)  { 
+			if(elems[i] == null) {
+				break;
+			}
+			else if( (c.compare(elems[i], x) > 0) && (c.compare(elems[i], max) < 0)  ) { 
+				flag = i;
+				break;
+			}
+		}
+		return flag;
+	}
+	//Greater or equal to x, less than max
+	public int findGE(Object x, Object max) {
+		int flag = -1;
+		for(int i=0; i<3; i++)  { 
+			if(elems[i] == null) {
+				break;
+			}
+			else if( (c.compare(elems[i], x) >= 0) && (c.compare(elems[i], max) < 0)  ) { 
+				flag = i;
+				break;
+			}
+		}
+		
+		return flag;
+	}
 
 	//Remove the right most element
 	//Queue remove

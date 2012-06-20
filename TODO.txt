@@ -16,12 +16,9 @@ Rename some functions
 Change the way some of them work
 
 
-	//XXX change childNum var names to i
-
 possible deletion: delete and just rebuild tree
 
 remove all unnecessary white space
 
-private to protected
+test all methods on empty list
 
-change item to elem

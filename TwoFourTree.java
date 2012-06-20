@@ -75,8 +75,7 @@ public class TwoFourTree implements SSet<Object> {
 		TwoFourNode current = myRootNode;
 		Object tempItem = x; 
 
-		while(true)
-		{
+		while(true) {
 			//Split nodes that are full as we traverse
 			if( current.full() )  {
 					split(current);
@@ -172,17 +171,145 @@ public class TwoFourTree implements SSet<Object> {
 		
 	//	r
 	//}
+	
+	//
+	//protected findNode()
+	
+	
+	//Find smallest node
+	protected TwoFourNode findNodeSmallest (TwoFourNode parent) {
+		
+		TwoFourNode current = parent;
+		
+		
+		//Do Forever
+		while (true) {
+			
+			if (current.leaf()) {
+				break;
+			}
+			current = current.firstChild();
+			
+		}
+		return current;
+		
+	}
+	//Return node with largest elements
+	protected TwoFourNode findNodeLargest(TwoFourNode parent) {
+		
+		TwoFourNode current = parent;
+		
+		
+		//Do Forever
+		while (true) {
+			
+			if (current.leaf()) {
+				break;
+			}
+			current = current.lastChild();
+			
+		}
+		return current;
+		
+	}
+	//Find Largest element on tree
+	protected Object findLargest() {
+		return findNodeLargest(myRootNode).largestElem();
+	}
+	//Find Smallest element on tree
+	protected Object findSmallest () {
+		return findNodeSmallest(myRootNode).smallestElem();
+		
+	}
+	
+	//Find the next object greater (but not equal to) x
+	//ie. find next element on tree
+	protected Object findG(Object x) {
+		
+		if (x == null) {
+			throw new TwoFourNodeException("No Object as parameter");
+		}
+		
+		Object max = findLargest();
+		
+		
+		//if x is bigger than biggest. There is no bigger ones to return
+		if (c.compare(max, x) <= 0) {
+			return null;
+		}
+		
+		//Root
+		TwoFourNode current = myRootNode;
+		
+        while (true) {
+        	
+			//index greater or eq elem
+	        int index = current.findG(x,max);
+        
+			if (index > -1) {
+				max = current.getElem(index); //Bigger than or equals to x
+			}
+//			if (c.compare(max,x) == 0) {
+//				return max;
+//			}
+			if (current.leaf()) {
+				return max;
+			}
+			current = getChildSibling(current,x);
+        }
+     
+		
+	}
+	
+	//Find nearest. Greater than and equal to
 	public Object find(Object x) {
-		// TODO Auto-generated method stub
-		return null;
+		if (x == null) {
+			throw new TwoFourNodeException("No Object as parameter");
+		}
+		
+		Object max = findLargest();
+		
+		//if x is bigger than biggest. There is no bigger ones to return
+		if (c.compare(max, x) < -1)
+			return null;
+		
+		
+		//Root
+		TwoFourNode current = myRootNode;
+		
+        while (true) {
+        	
+			//index greater or eq elem
+	        int index = current.findGE(x,max);
+        
+			if (index > -1) {
+				max = current.getElem(index); //Bigger than or equals to x
+			}
+			if (c.compare(max,x) == 0) {
+				return max;
+			}
+			if (current.leaf()) {
+				return max;
+			}
+			current = getChildSibling(current,x);
+        }
+     
 	}
 
+	//Like find, but if x == null, return smallest
 	public Object findGE(Object x) {
-		// TODO Auto-generated method stub
-		return null;
+		//Return Smallest object
+		if (x == null) {
+			return findSmallest(); 
+		}
+			
+		return find(x); 
 	}
 
 	public Object findLT(Object x) {
+		if (x == null) {
+			return findLargest();
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -209,9 +336,50 @@ public class TwoFourTree implements SSet<Object> {
 		return false;
 	}
 
+	public TwoFourNode getRoot() {
+		return myRootNode;
+	}
+	//XXX DOUBLE CHECK RETURN VALUE ---> EMPTY SET AS INTERSECTION?
+	//Intersect two sets
 	public boolean intersectWith(SSet sset) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if (size() == 0 ) {
+			
+			myRootNode = new TwoFourNode();
+			return true;
+		}
+		
+		
+		TwoFourNode oldRoot = myRootNode;  //Store for failure
+		
+		TwoFourTree nt = new TwoFourTree();
+		
+		////New root to build on
+		//myRootNode = new TwoFourNode();
+		
+		Object obj = findSmallest(); 
+		//Iterate over every element
+		while ( obj != null) {
+			
+			if (sset.belongsTo(obj) == false) {
+				continue;
+			}
+			nt.add(obj);
+			obj = findG(obj) ;
+			System.out.println("Ah");
+		}
+		
+		myRootNode = nt.getRoot();
+		//If empty set is result
+		if (size() == 0) {
+			//Reset old root
+			myRootNode = oldRoot;
+			//Fail
+			return false;
+		}
+		
+		//New tree is resulting tree
+		return true;
 	}
 
 	public boolean differenceWith(SSet sset) {
@@ -219,9 +387,24 @@ public class TwoFourTree implements SSet<Object> {
 		return false;
 	}
 
+	//Is this set a subsite of sset?
 	public boolean subsetOf(SSet sset) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		//Empty set is always a subset of any set
+		if (size() == 0) {
+			return true; 
+		}
+		
+		Object obj = findSmallest(); 
+		//Iterate over every element
+		while ( obj != null) {
+			
+			if (sset.belongsTo(obj) == false) {
+				return false;
+			}
+			obj = findG(obj) ;
+		}
+		return true;
 	}
 	//Helper function
 	//As you go down the search path, we split every full node
