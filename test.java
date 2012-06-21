@@ -31,7 +31,7 @@ public class test {
 		//tdiff(tree);
 		//tremove( tree );
 		
-		tree .displayTree(); //XXX
+		System.out.println(tree .toString());
 		//tComp(tree);
 		System.out.println("Complete");
  
@@ -64,7 +64,7 @@ public class test {
 	   
 	   //t.testMerge(); //XXX
 	   
-	   t.displayTree();//XXX
+	System.out.println(t.toString());
 	   
    }
 	
@@ -78,7 +78,7 @@ public class test {
 	   
 	   //t.test(); //XXX
 	   
-	   //t.displayTree(); //XXX
+	System.out.println(t.toString());
    }
    public static void tfindLT(TwoFourTree t) {
 	   
@@ -113,7 +113,7 @@ public class test {
       tt.add(new ta(79));
       
       tt.unionWith(nt);
-      tt.displayTree(); //XXX
+	System.out.println(tt.toString());
 	}
 	public static void tintersect() {
 		
@@ -138,12 +138,12 @@ public class test {
       
       nt.intersectWith(tt);
       
-      nt.displayTree();
+	System.out.println(nt.toString());
       
 	   System.out.println(nt.size());
       nt.clear();
       nt.intersectWith(tt);
-      nt.displayTree(); //XXX
+	System.out.println(nt.toString());
 		
 	}
 	public static void titer(TwoFourTree t) {

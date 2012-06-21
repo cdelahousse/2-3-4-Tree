@@ -9,8 +9,7 @@ public class TwoFourNode<T> {
 
 	protected Comparator<T> c;
 
-	private T[] elems = (T[]) new Object[3]; //XXX THIS IS HOW WE WANT TO STORE DATA. SEE TODO
-	//protected Data elems[] = new Data[3]; //FRM BOOK XXX
+	private T[] elems = (T[]) new Object[3]; 
 
 
 	protected TwoFourNode<T> 	parent;
@@ -27,6 +26,7 @@ public class TwoFourNode<T> {
 	}
 
 	//elems on node
+	//Number of elements in node
 	public int howManyElems() {
 		return numberOfElems;
 	}
@@ -43,8 +43,6 @@ public class TwoFourNode<T> {
 		for (int i = 0; i < numberOfElems+1; i++) {
 			sum += getChild(i).size();
 		}
-		
-		
 		
 		return sum;
 	}
@@ -79,9 +77,11 @@ public class TwoFourNode<T> {
 		return parent;
 	}
 
+	//Get first child
 	public TwoFourNode<T> firstChild() {
 		return children[0];
 	}
+	//Get  last child
 	public TwoFourNode<T> lastChild() {
 		return children[numberOfElems];
 	}
@@ -96,7 +96,7 @@ public class TwoFourNode<T> {
 		return children;
 	}
 
-	//Get T
+	//Get object
 	public T getElem(int i )  {
 		return elems[i];
 	}
@@ -236,24 +236,7 @@ public class TwoFourNode<T> {
 		
 	}
 
-
-	//XXX DELETE ME!
-	//XXX Output as one string only
-	//XXX conver to .toString
-	public void displayNode()           // format "/24/56/74/"
-	{
-		for(int i=0; i<numberOfElems; i++)
-			System.out.print("|" + elems[i].toString() );   // "/56"
-		System.out.println("|");         // final "/"
-	}
-
-
-
-	// Add the rest of the methods you need, including maintaining items. A Node can have one or more
-	// items.
-
-	//TO-DO: Create a string which includes the parent of the node, if any, plus, all of it's children.
-	//The format should be easy to follow and useful. Think about at as a helper method for debugging/testing
+	//Converts node to string
 	public String  toString() { 
 		String str = "|";
 		for (int i = 0; i< howManyElems(); i++) {
