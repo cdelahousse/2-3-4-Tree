@@ -4,21 +4,21 @@ import java.util.Comparator;
 public class TwoFourNode<T> {
 	
 	//Global data
-	protected final TwoFourNode divorcedAndChildless = null;
-	protected TwoFourNode children[] = new TwoFourNode[4];
+	protected final TwoFourNode<T> divorcedAndChildless = null;
+	protected TwoFourNode<T> children[] = new TwoFourNode[4];
 
-	protected Comparator c;
+	protected Comparator<T> c;
 
-	private Object[] elems = new Object[3]; //XXX THIS IS HOW WE WANT TO STORE DATA. SEE TODO
+	private T[] elems = (T[]) new Object[3]; //XXX THIS IS HOW WE WANT TO STORE DATA. SEE TODO
 	//protected Data elems[] = new Data[3]; //FRM BOOK XXX
 
 
-	protected TwoFourNode 	parent;
+	protected TwoFourNode<T> 	parent;
 	protected int	numberOfElems;
 	
 	public TwoFourNode() {
 		numberOfElems = 0;
-		c = new DefaultComparator();
+		c = new DefaultComparator<T>();
 	}
 	//If you want to pass in a caparator
 	public TwoFourNode(Comparator<T> ca) {
@@ -51,7 +51,7 @@ public class TwoFourNode<T> {
 
 	//Test if leaf
 	public boolean leaf() {
-		TwoFourNode test = firstChild();
+		TwoFourNode<T> test = firstChild();
 		if (test == divorcedAndChildless) {
 			return true;
 		}else {
@@ -61,51 +61,51 @@ public class TwoFourNode<T> {
 
 
 	// create an edge between a child child and this node
-	public void createEdge(int i, TwoFourNode node) {
+	public void createEdge(int i, TwoFourNode<T> node) {
 		children[i] = node;
 		if(node != divorcedAndChildless) node.parent = this;
 	}
 
 	// delete edge from this node, return it
-	public TwoFourNode removeEdge(int i) {
-		TwoFourNode tmp = getChild(i);
+	public TwoFourNode<T> removeEdge(int i) {
+		TwoFourNode<T> tmp = getChild(i);
 		children[i] = divorcedAndChildless;
 		return tmp;
 	}
 
 
 	//Get parent
-	public TwoFourNode parent() {
+	public TwoFourNode<T> parent() {
 		return parent;
 	}
 
-	public TwoFourNode firstChild() {
+	public TwoFourNode<T> firstChild() {
 		return children[0];
 	}
-	public TwoFourNode lastChild() {
+	public TwoFourNode<T> lastChild() {
 		return children[numberOfElems];
 	}
 
 	//Get child from node
-	public TwoFourNode getChild(int i) { 
+	public TwoFourNode<T> getChild(int i) { 
 		return children[i]; 
 	}
 	
 	//get Children
-	public TwoFourNode[] getChildren() {
+	public TwoFourNode<T>[] getChildren() {
 		return children;
 	}
 
-	//Get object
-	public Object getElem(int i )  {
+	//Get T
+	public T getElem(int i )  {
 		return elems[i];
 	}
 	//Get smallest Elem
-	public Object smallestElem()  {
+	public T smallestElem()  {
 		return elems[0];
 	}
 	//Get largest Elem
-	public Object largestElem()  {
+	public T largestElem()  {
 		return elems[numberOfElems-1];
 	}
 
@@ -119,7 +119,7 @@ public class TwoFourNode<T> {
 	}
 
 	//searches for elem, returns index
-	public int findElem(Object x) {
+	public int findElem(T x) {
 		int flag = -1;
 
 		for(int i=0; i<3; i++)  { 
@@ -133,8 +133,8 @@ public class TwoFourNode<T> {
 		return flag;
 	} 
 	
-	//Find object that is greater than X, but less than max 
-	public int findG(Object x, Object max) {
+	//Find T that is greater than X, but less than max 
+	public int findG(T x, T max) {
 		int flag = -1;
 		for(int i=0; i<3; i++)  { 
 			if(elems[i] == null) {
@@ -147,8 +147,8 @@ public class TwoFourNode<T> {
 		}
 		return flag;
 	}
-    //Find object that is less than x, but more than min
-	public int findLT(Object x, Object min) {
+    //Find T that is less than x, but more than min
+	public int findLT(T x, T min) {
 	
 		int flag = -1;
 		for(int i=2; i>=0; i--)  { 
@@ -165,7 +165,7 @@ public class TwoFourNode<T> {
 	
 	
 	//Greater or equal to x, less than max
-	public int findGE(Object x, Object max) {
+	public int findGE(T x, T max) {
 		int flag = -1;
 		for(int i=0; i<3; i++)  { 
 			if(elems[i] == null) {
@@ -182,10 +182,10 @@ public class TwoFourNode<T> {
 
 	//Remove the right most element
 	//Queue remove
-	public Object remove() {
+	public T remove() {
 
 		numberOfElems--; 
-		Object itm = elems[numberOfElems]; 
+		T itm = elems[numberOfElems]; 
 		elems[numberOfElems] = null; 
 		return itm; 
 	}
@@ -193,7 +193,7 @@ public class TwoFourNode<T> {
 	//Add a new element to current TwoFourNode
 	//These nodes shouldn't be full
 	//returns index of where value was added
-	public int addNewElem(Object obj) {
+	public int addNewElem(T obj) {
 
 
 		//Inc node
@@ -206,7 +206,7 @@ public class TwoFourNode<T> {
 					continue; 
 				else {                             
 
-					Object k = elems[i];
+					T k = elems[i];
 					if(c.compare(obj, k ) < 0) 
 						elems[i+1] = elems[i]; 
 
@@ -223,8 +223,8 @@ public class TwoFourNode<T> {
 		return indexToReturn;
 	} 
 	
-	Object removeElem(int index) {
-		Object toReturn = getElem(index);
+	T removeElem(int index) {
+		T toReturn = getElem(index);
 		int i;
 		for (i = index; i < numberOfElems-1; i++) {
 			elems[i] = elems[i+1];

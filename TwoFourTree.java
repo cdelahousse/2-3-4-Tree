@@ -1,28 +1,25 @@
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
-import javax.swing.tree.TreeNode;
 
-public class TwoFourTree implements SSet<Object> {
+public class TwoFourTree<T> implements SSet<T> {
 
-	protected TwoFourNode myRootNode = new TwoFourNode(); //Tree needs a root, no?
+	protected TwoFourNode<T> myRootNode = new TwoFourNode<T>(); //Tree needs a root, no?
 	
 
 	//For comparating
-	Comparator c;
+	Comparator<? super T> c;
 	
 	public TwoFourTree() {
-		c = new DefaultComparator();
+		c = new DefaultComparator<T>();
 	}
-	public TwoFourTree(Comparator ca) {
+	public TwoFourTree(Comparator<? super T> ca) {
 		c = ca;
 	}
 
 
-	public boolean belongsTo(Object x) {
-		TwoFourNode current = myRootNode;
+	public boolean belongsTo(T x) {
+		TwoFourNode<T> current = myRootNode;
 		
 		
 		//Do Forever
@@ -45,8 +42,8 @@ public class TwoFourTree implements SSet<Object> {
 	//Find elem in  tree node, return index
 	//XXX DOUBLED
 	//XXX May NOT NEED
-	//public int find(long key) //XXX LONG COMPARE OBJECT
-	//public int findE(Object key) //XXX LONG COMPARE OBJECT
+	//public int find(long key) //XXX LONG COMPARE T
+	//public int findE(T key) //XXX LONG COMPARE T
 	//{
 	//	TwoFourNode curNode = myRootNode;
 	//	int childNumber;
@@ -66,7 +63,7 @@ public class TwoFourTree implements SSet<Object> {
 
 
 	//Add. Return false if already there
-	public boolean add(Object x) { 
+	public boolean add(T x) { 
 		
 		//Dissallow doubles
 		//Needs to have check here here because of splits
@@ -74,8 +71,8 @@ public class TwoFourTree implements SSet<Object> {
 			return false;
 		}
 		
-		TwoFourNode current = myRootNode;
-		Object tempItem = x; 
+		TwoFourNode<T> current = myRootNode;
+		T tempItem = x; 
 
 		while(true) {
 			//Split nodes that are full as we traverse
@@ -103,9 +100,9 @@ public class TwoFourTree implements SSet<Object> {
 
 
 
-	//if you supply a parent and an object, you'll that parent's most likely 
-	//child that'll house the object
-	protected TwoFourNode getChildSibling(TwoFourNode parent, Object x) {
+	//if you supply a parent and an T, you'll that parent's most likely 
+	//child that'll house the T
+	protected TwoFourNode<T> getChildSibling(TwoFourNode<T> parent, T x) {
 		
 		int numElems = parent.howManyElems();
 		//Iterate until right most
@@ -124,7 +121,7 @@ public class TwoFourTree implements SSet<Object> {
 
 	
 	//Returns comparator
-	public Comparator<? super Object> comparator() {
+	public Comparator<? super T> comparator() {
 		return c;
 	}
 
@@ -134,9 +131,9 @@ public class TwoFourTree implements SSet<Object> {
 
 	
 	//Find smallest node
-	protected TwoFourNode findNodeSmallest (TwoFourNode parent) {
+	protected TwoFourNode<T> findNodeSmallest (TwoFourNode<T> parent) {
 		
-		TwoFourNode current = parent;
+		TwoFourNode<T> current = parent;
 		
 		
 		//Do Forever
@@ -152,9 +149,9 @@ public class TwoFourTree implements SSet<Object> {
 		
 	}
 	//Return node with largest elements
-	protected TwoFourNode findNodeLargest(TwoFourNode parent) {
+	protected TwoFourNode<T> findNodeLargest(TwoFourNode<T> parent) {
 		
-		TwoFourNode current = parent;
+		TwoFourNode<T> current = parent;
 		
 		
 		//Do Forever
@@ -170,25 +167,25 @@ public class TwoFourTree implements SSet<Object> {
 		
 	}
 	//Find Largest element on tree
-	protected Object findLargest() {
+	protected T findLargest() {
 		return findNodeLargest(myRootNode).largestElem();
 	}
 	//Find Smallest element on tree
-	protected Object findSmallest () {
+	protected T findSmallest () {
 		return findNodeSmallest(myRootNode).smallestElem();
 		
 	}
 	
 	//HELPER METHOD
-	//Find the next object greater (but not equal to) x
+	//Find the next T greater (but not equal to) x
 	//ie. find next element on tree
-	protected Object findG(Object x) {
+	protected T findG(T x) {
 		
 		if (x == null) {
-			throw new TwoFourNodeException("No Object as parameter");
+			throw new TwoFourNodeException("No T as parameter");
 		}
 		
-		Object max = findLargest();
+		T max = findLargest();
 		
 		
 		//if x is bigger than biggest. There is no bigger ones to return
@@ -197,7 +194,7 @@ public class TwoFourTree implements SSet<Object> {
 		}
 		
 		//Root
-		TwoFourNode current = myRootNode;
+		TwoFourNode<T> current = myRootNode;
 		
         while (true) {
         	
@@ -217,12 +214,12 @@ public class TwoFourTree implements SSet<Object> {
 	}
 	
 	//Find nearest. Greater than and equal to
-	public Object find(Object x) {
+	public T find(T x) {
 		if (x == null) {
-			throw new TwoFourNodeException("No Object as parameter");
+			throw new TwoFourNodeException("No T as parameter");
 		}
 		
-		Object max = findLargest();
+		T max = findLargest();
 		
 		//if x is bigger than biggest. There is no bigger ones to return
 		if (c.compare(max, x) <= -1){
@@ -231,7 +228,7 @@ public class TwoFourTree implements SSet<Object> {
 		
 		
 		//Root
-		TwoFourNode current = myRootNode;
+		TwoFourNode<T> current = myRootNode;
 		
         while (true) {
         	
@@ -253,8 +250,8 @@ public class TwoFourTree implements SSet<Object> {
 	}
 
 	//Like find, but if x == null, return smallest
-	public Object findGE(Object x) {
-		//Return Smallest object
+	public T findGE(T x) {
+		//Return Smallest T
 		if (x == null) {
 			return findSmallest(); 
 		}
@@ -263,7 +260,7 @@ public class TwoFourTree implements SSet<Object> {
 	}
 
 		
-	protected TwoFourNode getPrevChildSibling(TwoFourNode parent, Object x) {
+	protected TwoFourNode<T> getPrevChildSibling(TwoFourNode<T> parent, T x) {
 		int numElems = parent.howManyElems();
 		//Iterate until right most
 		for(int index=0; index<numElems; index++) {
@@ -276,16 +273,16 @@ public class TwoFourTree implements SSet<Object> {
 		return parent.getChild(numElems); 
 	}
 	//XXX
-	public Object findLT(Object x) {
+	public T findLT(T x) {
 		
 		if (x == null) {
 			return findLargest();
 		}
 		
 		//Root
-		TwoFourNode current = myRootNode;
+		TwoFourNode<T> current = myRootNode;
 		
-		Object min =  findSmallest();
+		T min =  findSmallest();
 		
 		//if x is smaller than smallest. There is no bigger ones to return
 		if (c.compare( x,min) <= -1 ) {
@@ -322,35 +319,35 @@ public class TwoFourTree implements SSet<Object> {
 	}
 	
 	//XXX
-	public void testMerge() {
-		//merge(myRootNode);
-	   add(new ta(5));
-	   add(new ta(9));
-	   add(new ta(12));
-		
-	   TwoFourNode l1 = new TwoFourNode();
-	   l1.addNewElem(new ta(2));
-	   //TwoFourNode r1 = new TwoFourNode();
-	   //r1.addNewElem(new ta(7));
-	   myRootNode.createEdge(0, l1);
-	   //myRootNode.createEdge(1, r);
-	   TwoFourNode l = new TwoFourNode();
-	   l.addNewElem(new ta(7));
-	   TwoFourNode r = new TwoFourNode();
-	   r.addNewElem(new ta(10));
-	   
-	   myRootNode.createEdge(1, l);
-	   myRootNode.createEdge(2, r);
-	   TwoFourNode r3 = new TwoFourNode();
-	   r3.addNewElem(new ta(14));
-	   myRootNode.createEdge(3, r3);
-	   
-	   displayTree();
-	   System.out.println("merg");
-	   merge(myRootNode,new ta(12), 2);
-	}
+//	public void testMerge() {
+//		//merge(myRootNode);
+//	   add(new ta(5));
+//	   add(new ta(9));
+//	   add(new ta(12));
+//		
+//	   TwoFourNode<T> l1 = new TwoFourNode<T>();
+//	   l1.addNewElem(new ta(2));
+//	   //TwoFourNode r1 = new TwoFourNode();
+//	   //r1.addNewElem(new ta(7));
+//	   myRootNode.createEdge(0, l1);
+//	   //myRootNode.createEdge(1, r);
+//	   TwoFourNode<T> l = new TwoFourNode<T>();
+//	   l.addNewElem(new ta(7));
+//	   TwoFourNode<T> r = new TwoFourNode<T>();
+//	   r.addNewElem(new ta(10));
+//	   
+//	   myRootNode.createEdge(1, l);
+//	   myRootNode.createEdge(2, r);
+//	   TwoFourNode<T> r3 = new TwoFourNode<T>();
+//	   r3.addNewElem(new ta(14));
+//	   myRootNode.createEdge(3, r3);
+//	   
+//	   displayTree();
+//	   System.out.println("merg");
+//	   merge(myRootNode,new ta(12), 2);
+//	}
 
-	protected void remove(TwoFourNode node, Object x) {
+	protected void remove(TwoFourNode<T> node, T x) {
 		
 		
 		//BaseCase = Leaf
@@ -360,7 +357,7 @@ public class TwoFourTree implements SSet<Object> {
 		//Test for size? XXX
 			
 			if (index > -1) {
-				remove(index);
+				node.removeElem(index);
 				
 			//Not Found on leaf
 			} else {
@@ -378,12 +375,12 @@ public class TwoFourTree implements SSet<Object> {
 			if (index > -1) {
 				
 				//Get child of that precedes x. NOTE:  Preceding child has same index;
-				TwoFourNode predChild = node.getChild(index);
+				TwoFourNode<T> predChild = node.getChild(index);
 				
 				//Not Full
 				//At least 2 keys
 				if (predChild.howManyElems()> 1) { //XXX Check if right (at least t, which is two or more, meaning greater than 1)
-					Object predecessor = findNodeLargest(predChild).largestElem();
+					T predecessor = findNodeLargest(predChild).largestElem();
 					
 					//Overwrite key with new element
 					node.removeElem(index);
@@ -401,12 +398,12 @@ public class TwoFourTree implements SSet<Object> {
 					//Following child
 					//TwoFourNode nextChild = getChildSibling(node,x); //Is this really the best way to find next child?  XXX
 					
-					TwoFourNode nextChild = node.getChild(index + 1) ;
+					TwoFourNode<T> nextChild = node.getChild(index + 1) ;
 					
 					//If following child has two or more elements
 					if (nextChild.howManyElems() > 1) { //XXX
 						
-						Object successor = findNodeSmallest(nextChild).smallestElem();
+						T successor = findNodeSmallest(nextChild).smallestElem();
 						
 						//Overwrite key with new element
 						node.removeElem(index);
@@ -434,14 +431,14 @@ public class TwoFourTree implements SSet<Object> {
 			else {
 				
 				//Look for next potential child
-				TwoFourNode c = getChildSibling(node, x);
+				TwoFourNode<T> c = getChildSibling(node, x);
 				
 				//If node is lean
 				//one or less
 				if (c.howManyElems() == 1) { //XXX
 					
-					TwoFourNode predChild = c.getChild(0);
-					TwoFourNode nextChild = c.getChild(1) ;
+					TwoFourNode<T> predChild = c.getChild(0);
+					TwoFourNode<T> nextChild = c.getChild(1) ;
 					
 					if (predChild.howManyElems() > 1) {
 						
@@ -505,12 +502,12 @@ public class TwoFourTree implements SSet<Object> {
 	//Assume both child nodes are lean
 	//XXX Change to protected
 	//From parent node, split children, previous and following, element k
-	public void merge(TwoFourNode node, Object k,int index) {
+	public void merge(TwoFourNode<T> node, T k,int index) {
 		
-		TwoFourNode predChild = node.getChild(index);
-		TwoFourNode nextChild = node.getChild(index + 1) ;
+		TwoFourNode<T> predChild = node.getChild(index);
+		TwoFourNode<T> nextChild = node.getChild(index + 1) ;
 		
-		Object temp = node.removeElem(index);
+		T temp = node.removeElem(index);
 		if (c.compare(k, temp) != 0)
 			throw new TwoFourNodeException("HE HAVE A MERGE ISSUE!");
 		
@@ -521,19 +518,19 @@ public class TwoFourTree implements SSet<Object> {
 		//Clobber it with node.removeEdge(i+1);
 		int i;
 		for(i=index+1; i<node.howManyElems(); i++) { //XXX
-			TwoFourNode tmp = node.removeEdge(i+1); 
+			TwoFourNode<T> tmp = node.removeEdge(i+1); 
 			node.createEdge(i, tmp);    
 		}
 		//node.removeEdge(i);
 		
 		//Store first and second children of of next node after this node (follwoing child)
 		//Node should only have two children
-		TwoFourNode c0 = nextChild.firstChild();
-		TwoFourNode c1= nextChild.getChild(1);
+		TwoFourNode<T> c0 = nextChild.firstChild();
+		TwoFourNode<T> c1= nextChild.getChild(1);
 		
 		//Add children to pred child
 		predChild.createEdge(2, c0);
-		predChild.createEdge(3, c0);
+		predChild.createEdge(3, c1);
 		
 		int addIndex;
 		addIndex = predChild.addNewElem(k); //Add Key at middle
@@ -554,22 +551,22 @@ public class TwoFourTree implements SSet<Object> {
 	//Helper function
 	//As you go down the search path, we split every full node
 	//Only called when node is full
-	protected void split(TwoFourNode node)  {
+	protected void split(TwoFourNode<T> node)  {
 
 
 		//Node has 3 elems and four children 
-		Object right = node.remove();
-		Object mid = node.remove();  
+		T right = node.remove();
+		T mid = node.remove();  
 
 		//Children 0 and 1 are handled later
-		TwoFourNode c2 = node.removeEdge(2); 
-		TwoFourNode c3 = node.removeEdge(3); 
+		TwoFourNode<T> c2 = node.removeEdge(2); 
+		TwoFourNode<T> c3 = node.removeEdge(3); 
 
-		TwoFourNode parent;
+		TwoFourNode<T> parent;
 
 		//Case: root
 		if(myRootNode == node)   {
-				myRootNode = new TwoFourNode();
+				myRootNode = new TwoFourNode<T>();
 				parent = myRootNode; 
 				myRootNode.createEdge(0, node);
 		}
@@ -584,12 +581,12 @@ public class TwoFourTree implements SSet<Object> {
 
 		//Shift edges
 		for(int i=elems-1; i>iAdded; i--) {
-			TwoFourNode tmp = parent.removeEdge(i); 
+			TwoFourNode<T> tmp = parent.removeEdge(i); 
 			parent.createEdge(i+1, tmp);    
 		}
 
 		//This will be new node on right
-		TwoFourNode rnew = new TwoFourNode(); 
+		TwoFourNode<T> rnew = new TwoFourNode<T>(); 
 		parent.createEdge(iAdded+1, rnew); 
 
 		//Repopulate node
@@ -599,13 +596,13 @@ public class TwoFourTree implements SSet<Object> {
 	}
 	
 	
-	public boolean remove(Object x) {
+	public boolean remove(T x) {
 		
 		return removeHack(x);
 	}
 	
 	//I couldn't get the recursive remove to work in every case, so to get the interface working, I implemented this kludge
-	public boolean removeHack(Object x) {
+	public boolean removeHack(T x) {
 		
 		
 		//Can't remove from an empty set
@@ -615,11 +612,10 @@ public class TwoFourTree implements SSet<Object> {
 		}
 		
 		
-		TwoFourNode oldRoot = myRootNode;  //Store for failure
 		
-		TwoFourTree nt = new TwoFourTree();
+		TwoFourTree<T> nt = new TwoFourTree<T>();
 		
-		Object obj = findSmallest(); 
+		T obj = findSmallest(); 
 		
 		Boolean flag = false;
 		//Iterate over every element
@@ -643,24 +639,24 @@ public class TwoFourTree implements SSet<Object> {
 
 	//clears tree
 	public void clear() {
-		 myRootNode = new TwoFourNode(); //Tree needs a root
+		 myRootNode = new TwoFourNode<T>(); //Tree needs a root
 		 //YAY FOR GARBAGE COLLECTION!
 	}
 
 	//Returns iterator. If null is inputed, the iterator will be index at smallest element
-	public Iterator iterator(Object x) {
+	public Iterator<T> iterator(T x) {
 		return new TreeIter(x);
 	}
 	//Same as above, but with no args. Starts from smallest
-	public Iterator<? super Object> iterator() {
+	public Iterator<T> iterator() {
 		return new TreeIter(findSmallest());
 	}
 	
-	class TreeIter implements Iterator {
-		Object next;
+	class TreeIter implements Iterator<T> {
+		T next;
 		Boolean last = false;
 		
-		public TreeIter(Object x) {
+		public TreeIter(T x) {
 			if (c.compare(x, findLargest()) > 0 )
 				throw new TwoFourNodeException("Can not start to iterate after last element of the set") ;
 			if (c.compare(x, findLargest()) == 0 )
@@ -677,8 +673,8 @@ public class TwoFourTree implements SSet<Object> {
 			}
 		}
 
-		public Object next() {
-			Object toReturn = next;
+		public T next() {
+			T toReturn = next;
 			if ( next == null) {
 				throw new NoSuchElementException("Has no next element");
 			}
@@ -699,13 +695,13 @@ public class TwoFourTree implements SSet<Object> {
 	
 
 	//Unions with sset
-	public boolean unionWith(SSet sset) {
+	public boolean unionWith(SSet<T> sset) {
 		//Nothing to union
 		if (sset.size() == 0) {
 			return true;
 		}
-		Iterator iter = sset.iterator();
-		Object obj;
+		Iterator<T> iter = sset.iterator();
+		T obj;
 		while (iter.hasNext()) {
 			obj = iter.next();
 			//add() does doubles checking
@@ -719,27 +715,27 @@ public class TwoFourTree implements SSet<Object> {
 		return true;
 	}
 
-	public TwoFourNode getRoot() {
+	public TwoFourNode<T> getRoot() {
 		return myRootNode;
 	}
 	
 	
 	//Intersect two sets
-	public boolean intersectWith(SSet sset) {
+	public boolean intersectWith(SSet<T> sset) {
 		
 		//Empty set
 		if (size() == 0 || sset.size() == 0 ) {
 			
-			myRootNode = new TwoFourNode();
+			myRootNode = new TwoFourNode<T>();
 			return true;
 		}
 		
 		
-		TwoFourNode oldRoot = myRootNode;  //Store for failure
+		TwoFourNode<T> oldRoot = myRootNode;  //Store for failure
 		
 		TwoFourTree nt = new TwoFourTree();
 		
-		Object obj = findSmallest(); 
+		T obj = findSmallest(); 
 		
 		//Iterate over every element
 		while ( obj != null) {
@@ -764,7 +760,7 @@ public class TwoFourTree implements SSet<Object> {
 		return true;
 	}
 
-	public boolean differenceWith(SSet sset) {
+	public boolean differenceWith(SSet<T> sset) {
 		
 		
 		
@@ -773,16 +769,16 @@ public class TwoFourTree implements SSet<Object> {
 			return true;
 		}
 		
-		TwoFourNode oldRoot = myRootNode;  //Store for failure
+		TwoFourNode<T> oldRoot = myRootNode;  //Store for failure
 		
-		TwoFourTree nt = new TwoFourTree();
+		TwoFourTree<T> nt = new TwoFourTree<T>();
 		
-		Iterator iter = iterator();
+		Iterator<T> iter = iterator();
 		
 		//Iterate over every element
 		while ( iter.hasNext()) {
 			
-			Object obj = iter.next();
+			T obj = iter.next();
 			if (sset.belongsTo(obj) == true) {
 				continue;
 			}
@@ -805,14 +801,14 @@ public class TwoFourTree implements SSet<Object> {
 	}
 
 	//Is this set a subset of sset?
-	public boolean subsetOf(SSet sset) {
+	public boolean subsetOf(SSet<T> sset) {
 		
 		//Empty set is always a subset of any set
 		if (size() == 0) {
 			return true; 
 		}
 		
-		Object obj = findSmallest(); 
+		T obj = findSmallest(); 
 		//Iterate over every element
 		while ( obj != null) {
 			
@@ -836,7 +832,7 @@ public class TwoFourTree implements SSet<Object> {
 	
 	
 	//XXX DELETE ME
-	private void recDisplayTree(TwoFourNode thisNode, int level, int childNumber)
+	private void recDisplayTree(TwoFourNode<T> thisNode, int level, int childNumber)
 	{
 		System.out.print("level="+level+" child="+childNumber+" ");
 		thisNode.displayNode();               // display this node
@@ -845,7 +841,7 @@ public class TwoFourTree implements SSet<Object> {
 		int numElems= thisNode.howManyElems();
 		for(int j=0; j<numElems+1; j++)
 		{
-			TwoFourNode nextNode = thisNode.getChild(j);
+			TwoFourNode<T> nextNode = thisNode.getChild(j);
 			if(nextNode != null)
 				recDisplayTree(nextNode, level+1, j);
 			else
@@ -859,7 +855,7 @@ public class TwoFourTree implements SSet<Object> {
 	
 	public String toString() {
 		
-		TwoFourNode current = myRootNode;
+		TwoFourNode<T> current = myRootNode;
 		String str = "";
 		
 		

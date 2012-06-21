@@ -29,3 +29,8 @@ List cases where my remove works
 Mention clrs
 
 RemoveHack
+
+Build tostring
+
+
+Default comparator

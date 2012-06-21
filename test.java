@@ -2,11 +2,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 public class test {
 
-	/**
-	 * @param <T>
-	 * @param args
-	 */
-	public static <T> void main(String[] args) {
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		TwoFourTree tree = new TwoFourTree();
@@ -33,7 +29,7 @@ public class test {
 		//removeElem();
 //		tmerge();
 		//tdiff(tree);
-		tremove( tree );
+		//tremove( tree );
 		
 		tree .displayTree(); //XXX
 		//tComp(tree);
@@ -66,7 +62,7 @@ public class test {
 	   
 	   TwoFourTree t = new TwoFourTree();
 	   
-	   t.testMerge(); //XXX
+	   //t.testMerge(); //XXX
 	   
 	   t.displayTree();//XXX
 	   
