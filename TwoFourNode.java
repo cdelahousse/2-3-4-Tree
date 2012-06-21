@@ -2,19 +2,19 @@ import java.util.Comparator;
 
 
 public class TwoFourNode<T> {
-	
+
 	//Global data
 	protected final TwoFourNode<T> divorcedAndChildless = null;
 	protected TwoFourNode<T> children[] = new TwoFourNode[4];
 
 	protected Comparator<T> c;
 
-	private T[] elems = (T[]) new Object[3]; 
+	private T[] elems = (T[]) new Object[3];
 
 
 	protected TwoFourNode<T> 	parent;
 	protected int	numberOfElems;
-	
+
 	public TwoFourNode() {
 		numberOfElems = 0;
 		c = new DefaultComparator<T>();
@@ -30,20 +30,20 @@ public class TwoFourNode<T> {
 	public int howManyElems() {
 		return numberOfElems;
 	}
-	
-	//Return number of elements on this node and lower 
+
+	//Return number of elements on this node and lower
 	public int size() {
 		//If this is a leaf return number of elements
 		if (this.leaf() == true) {
 			return numberOfElems;
 		}
-		
+
 		int sum = numberOfElems;
 		//Add size of all children
 		for (int i = 0; i < numberOfElems+1; i++) {
 			sum += getChild(i).size();
 		}
-		
+
 		return sum;
 	}
 
@@ -87,10 +87,10 @@ public class TwoFourNode<T> {
 	}
 
 	//Get child from node
-	public TwoFourNode<T> getChild(int i) { 
-		return children[i]; 
+	public TwoFourNode<T> getChild(int i) {
+		return children[i];
 	}
-	
+
 	//get Children
 	public TwoFourNode<T>[] getChildren() {
 		return children;
@@ -122,25 +122,25 @@ public class TwoFourNode<T> {
 	public int findElem(T x) {
 		int flag = -1;
 
-		for(int i=0; i<3; i++)  { 
+		for(int i=0; i<3; i++)  {
 				if(elems[i] == null) {
 					break;
 				}
-				else if( c.compare(elems[i], x) == 0 ) { 
+				else if( c.compare(elems[i], x) == 0 ) {
 					flag = i;
 				}
 		}
 		return flag;
-	} 
-	
-	//Find T that is greater than X, but less than max 
+	}
+
+	//Find T that is greater than X, but less than max
 	public int findG(T x, T max) {
 		int flag = -1;
-		for(int i=0; i<3; i++)  { 
+		for(int i=0; i<3; i++)  {
 			if(elems[i] == null) {
 				break;
 			}
-			else if( (c.compare(elems[i], x) > 0) && (c.compare(elems[i], max) < 0)  ) { 
+			else if( (c.compare(elems[i], x) > 0) && (c.compare(elems[i], max) < 0)  ) {
 				flag = i;
 				break;
 			}
@@ -149,34 +149,34 @@ public class TwoFourNode<T> {
 	}
     //Find T that is less than x, but more than min
 	public int findLT(T x, T min) {
-	
+
 		int flag = -1;
-		for(int i=2; i>=0; i--)  { 
+		for(int i=2; i>=0; i--)  {
 			if(elems[i] == null) {
 				continue;
 			}
-			else if( (c.compare(elems[i], x) < 0) && (c.compare(elems[i], min) > 0)  ) { 
+			else if( (c.compare(elems[i], x) < 0) && (c.compare(elems[i], min) > 0)  ) {
 				flag = i;
 				break;
 			}
 		}
 		return flag;
 	}
-	
-	
+
+
 	//Greater or equal to x, less than max
 	public int findGE(T x, T max) {
 		int flag = -1;
-		for(int i=0; i<3; i++)  { 
+		for(int i=0; i<3; i++)  {
 			if(elems[i] == null) {
 				break;
 			}
-			else if( (c.compare(elems[i], x) >= 0) && (c.compare(elems[i], max) < 0)  ) { 
+			else if( (c.compare(elems[i], x) >= 0) && (c.compare(elems[i], max) < 0)  ) {
 				flag = i;
 				break;
 			}
 		}
-		
+
 		return flag;
 	}
 
@@ -184,10 +184,10 @@ public class TwoFourNode<T> {
 	//Queue remove
 	public T remove() {
 
-		numberOfElems--; 
-		T itm = elems[numberOfElems]; 
-		elems[numberOfElems] = null; 
-		return itm; 
+		numberOfElems--;
+		T elem= elems[numberOfElems];
+		elems[numberOfElems] = null;
+		return elem;
 	}
 
 	//Add a new element to current TwoFourNode
@@ -199,30 +199,31 @@ public class TwoFourNode<T> {
 		//Inc node
 		numberOfElems++;
 
-		int indexToReturn = 0; 
+		int indexToReturn = 0;
 		//Shift left like arrayList
 		for(int i=elems.length-1; i>=0; i--)  {  //3 - 1 = 2
-				if(elems[i] == null)    
-					continue; 
-				else {                             
+				if(elems[i] == null)
+					continue;
+				else {
 
 					T k = elems[i];
-					if(c.compare(obj, k ) < 0) 
-						elems[i+1] = elems[i]; 
+					if(c.compare(obj, k ) < 0)
+						elems[i+1] = elems[i];
 
 					//No more shifting
 					else {
 						elems[i+1] = obj; //insert elem
 						indexToReturn = i+1; //store index
 						break;
-						} 
-				}  
-		} 
+						}
+				}
+		}
 		elems[indexToReturn] = obj;
 		//Return index where added
 		return indexToReturn;
-	} 
-	
+	}
+
+	//Removes elem at index, shift to fill space
 	T removeElem(int index) {
 		T toReturn = getElem(index);
 		int i;
@@ -231,13 +232,13 @@ public class TwoFourNode<T> {
 		}
 		elems[i] = null;
 		numberOfElems--;
-		
+
 		return toReturn;
-		
+
 	}
 
 	//Converts node to string
-	public String  toString() { 
+	public String  toString() {
 		String str = "|";
 		for (int i = 0; i< howManyElems(); i++) {
 			str+= elems[i] + "|";

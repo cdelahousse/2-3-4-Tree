@@ -1,4 +1,6 @@
-
+//Test class implemented for testing. 
+//I just keep integers in here
+//compareto method implemented for comparator
 
 public class ta implements Comparable<ta> {
 
@@ -8,10 +10,9 @@ public class ta implements Comparable<ta> {
 	}
 	
 
-	@Override
 	public int compareTo(ta o) {
-		// TODO Auto-generated method stub
 		int oabd = ((ta) o).data;
+		//If one is bigger than the other
 		return data - oabd;
 	}
 	public String toString() {
