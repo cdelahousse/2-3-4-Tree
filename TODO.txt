@@ -22,3 +22,10 @@ remove all unnecessary white space
 
 test all methods on empty list
 
+test all methods on root as tree
+
+List cases where my remove works
+
+Mention clrs
+
+RemoveHack

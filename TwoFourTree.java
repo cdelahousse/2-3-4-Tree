@@ -7,10 +7,10 @@ import javax.swing.tree.TreeNode;
 
 public class TwoFourTree implements SSet<Object> {
 
-	protected TwoFourNode myRootNode = new TwoFourNode(); //Tree needs a root
+	protected TwoFourNode myRootNode = new TwoFourNode(); //Tree needs a root, no?
 	
 
-	//For comparting
+	//For comparating
 	Comparator c;
 	
 	public TwoFourTree() {
@@ -97,7 +97,7 @@ public class TwoFourTree implements SSet<Object> {
 		current.addNewElem(tempItem); 
 	
 		//Assume successful insertion
-		return true; //XXX
+		return true; 
 	} 
 
 
@@ -118,36 +118,6 @@ public class TwoFourTree implements SSet<Object> {
 		//Right most child ifnot found elsewhere
 		return parent.getChild(numElems); 
 	}
-
-
-
-
-
-	//XXX DELETE ME
-	public void displayTree()
-	{
-		recDisplayTree(myRootNode, 0, 0);
-	}
-	
-	
-	//XXX DELETE ME
-	private void recDisplayTree(TwoFourNode thisNode, int level, int childNumber)
-	{
-		System.out.print("level="+level+" child="+childNumber+" ");
-		thisNode.displayNode();               // display this node
-
-		// call ourselves for each child of this node
-		int numElems= thisNode.howManyElems();
-		for(int j=0; j<numElems+1; j++)
-		{
-			TwoFourNode nextNode = thisNode.getChild(j);
-			if(nextNode != null)
-				recDisplayTree(nextNode, level+1, j);
-			else
-				return;
-		}
-	}  // end recDisplayTree()
-
 
 
 
@@ -350,11 +320,325 @@ public class TwoFourTree implements SSet<Object> {
 			current = getPrevChildSibling(current,x);
        }
 	}
-
+	
 	//XXX
+	public void testMerge() {
+		//merge(myRootNode);
+	   add(new ta(5));
+	   add(new ta(9));
+	   add(new ta(12));
+		
+	   TwoFourNode l1 = new TwoFourNode();
+	   l1.addNewElem(new ta(2));
+	   //TwoFourNode r1 = new TwoFourNode();
+	   //r1.addNewElem(new ta(7));
+	   myRootNode.createEdge(0, l1);
+	   //myRootNode.createEdge(1, r);
+	   TwoFourNode l = new TwoFourNode();
+	   l.addNewElem(new ta(7));
+	   TwoFourNode r = new TwoFourNode();
+	   r.addNewElem(new ta(10));
+	   
+	   myRootNode.createEdge(1, l);
+	   myRootNode.createEdge(2, r);
+	   TwoFourNode r3 = new TwoFourNode();
+	   r3.addNewElem(new ta(14));
+	   myRootNode.createEdge(3, r3);
+	   
+	   displayTree();
+	   System.out.println("merg");
+	   merge(myRootNode,new ta(12), 2);
+	}
+
+	protected void remove(TwoFourNode node, Object x) {
+		
+		
+		//BaseCase = Leaf
+		if (node.leaf()) {
+			int index = node.findElem(x);
+			
+		//Test for size? XXX
+			
+			if (index > -1) {
+				remove(index);
+				
+			//Not Found on leaf
+			} else {
+				return;
+			}
+			
+		}
+		 //Not leaf
+		//Internal node
+		else {
+			
+			int index = node.findElem(x);
+			
+			//Found x
+			if (index > -1) {
+				
+				//Get child of that precedes x. NOTE:  Preceding child has same index;
+				TwoFourNode predChild = node.getChild(index);
+				
+				//Not Full
+				//At least 2 keys
+				if (predChild.howManyElems()> 1) { //XXX Check if right (at least t, which is two or more, meaning greater than 1)
+					Object predecessor = findNodeLargest(predChild).largestElem();
+					
+					//Overwrite key with new element
+					node.removeElem(index);
+					node.addNewElem(predecessor);
+					
+					//Recur
+					remove(predChild,predecessor);
+					
+				} 
+				//Node lean/potential underflow/has only 1 element
+				//UNDERFLOW
+				else {
+					
+					//ZZ
+					//Following child
+					//TwoFourNode nextChild = getChildSibling(node,x); //Is this really the best way to find next child?  XXX
+					
+					TwoFourNode nextChild = node.getChild(index + 1) ;
+					
+					//If following child has two or more elements
+					if (nextChild.howManyElems() > 1) { //XXX
+						
+						Object successor = findNodeSmallest(nextChild).smallestElem();
+						
+						//Overwrite key with new element
+						node.removeElem(index);
+						node.addNewElem(successor);
+						
+						//Recur
+						remove(nextChild,successor);
+						
+						
+					}
+					//BOth children will underflow
+					//Both children of node have t-1 keys
+					//BOth children should have 1 keys
+					else {
+						
+						//Merge
+						merge(node,x,index);
+						remove(predChild,x);
+						
+					}
+				}
+				
+			}
+			//x is not in this node and is internal node
+			else {
+				
+				//Look for next potential child
+				TwoFourNode c = getChildSibling(node, x);
+				
+				//If node is lean
+				//one or less
+				if (c.howManyElems() == 1) { //XXX
+					
+					TwoFourNode predChild = c.getChild(0);
+					TwoFourNode nextChild = c.getChild(1) ;
+					
+					if (predChild.howManyElems() > 1) {
+						
+						
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//------------
+						//HERE WE MUST
+						//ROTATE LEFT
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//------------
+					}
+					else if (nextChild.howManyElems() > 1) {
+						//------------
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//HERE WE MUST
+						//ROTATE RIGHT 
+						//------------
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						//-------------------------//
+						
+					}
+					//Both children have less than 2 elems
+					else {
+						merge(c, x, 0); //XXX
+						
+					}
+					
+					
+				//There's an issue	
+				} else {
+					throw new TwoFourNodeException("Issue!");
+				}
+				
+				//Recur
+				remove(c,x);
+				
+				
+				
+				
+				
+				
+			}
+			
+		}
+		
+	}
+	
+	//Assume both child nodes are lean
+	//XXX Change to protected
+	//From parent node, split children, previous and following, element k
+	public void merge(TwoFourNode node, Object k,int index) {
+		
+		TwoFourNode predChild = node.getChild(index);
+		TwoFourNode nextChild = node.getChild(index + 1) ;
+		
+		Object temp = node.removeElem(index);
+		if (c.compare(k, temp) != 0)
+			throw new TwoFourNodeException("HE HAVE A MERGE ISSUE!");
+		
+		//Shift edges on parent
+		//Maintain link to previous
+		//Clobber the link to nextChild
+		//Index + 1 is link to predChild
+		//Clobber it with node.removeEdge(i+1);
+		int i;
+		for(i=index+1; i<node.howManyElems(); i++) { //XXX
+			TwoFourNode tmp = node.removeEdge(i+1); 
+			node.createEdge(i, tmp);    
+		}
+		//node.removeEdge(i);
+		
+		//Store first and second children of of next node after this node (follwoing child)
+		//Node should only have two children
+		TwoFourNode c0 = nextChild.firstChild();
+		TwoFourNode c1= nextChild.getChild(1);
+		
+		//Add children to pred child
+		predChild.createEdge(2, c0);
+		predChild.createEdge(3, c0);
+		
+		int addIndex;
+		addIndex = predChild.addNewElem(k); //Add Key at middle
+		
+		
+		//Next child should only have 1 elem
+		addIndex = predChild.addNewElem(nextChild.getElem(0));
+		
+		if (predChild.howManyElems() != 3) {
+			
+			throw new TwoFourNodeException("Another merge Issue!");
+		}
+		
+		
+	}
+	
+	
+	//Helper function
+	//As you go down the search path, we split every full node
+	//Only called when node is full
+	protected void split(TwoFourNode node)  {
+
+
+		//Node has 3 elems and four children 
+		Object right = node.remove();
+		Object mid = node.remove();  
+
+		//Children 0 and 1 are handled later
+		TwoFourNode c2 = node.removeEdge(2); 
+		TwoFourNode c3 = node.removeEdge(3); 
+
+		TwoFourNode parent;
+
+		//Case: root
+		if(myRootNode == node)   {
+				myRootNode = new TwoFourNode();
+				parent = myRootNode; 
+				myRootNode.createEdge(0, node);
+		}
+		//Case Internal Node
+		else {
+			parent = node.parent(); 
+		}
+
+		//Add middle data elem to parent
+		int iAdded = parent.addNewElem(mid);
+		int elems = parent.howManyElems();
+
+		//Shift edges
+		for(int i=elems-1; i>iAdded; i--) {
+			TwoFourNode tmp = parent.removeEdge(i); 
+			parent.createEdge(i+1, tmp);    
+		}
+
+		//This will be new node on right
+		TwoFourNode rnew = new TwoFourNode(); 
+		parent.createEdge(iAdded+1, rnew); 
+
+		//Repopulate node
+		rnew.addNewElem(right);  
+		rnew.createEdge(0, c2); 
+		rnew.createEdge(1, c3); 
+	}
+	
+	
 	public boolean remove(Object x) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return removeHack(x);
+	}
+	
+	//I couldn't get the recursive remove to work in every case, so to get the interface working, I implemented this kludge
+	public boolean removeHack(Object x) {
+		
+		
+		//Can't remove from an empty set
+		if (size() == 0)  {
+			
+			return false;
+		}
+		
+		
+		TwoFourNode oldRoot = myRootNode;  //Store for failure
+		
+		TwoFourTree nt = new TwoFourTree();
+		
+		Object obj = findSmallest(); 
+		
+		Boolean flag = false;
+		//Iterate over every element
+		while ( obj != null ) {
+			
+			if (c.compare(x, obj) == 0) {
+				flag = true;
+				obj = findG(obj) ;
+				continue;
+			}
+			nt.add(obj);
+			obj = findG(obj) ;
+		}
+		
+		myRootNode = nt.getRoot(); //XXX
+		
+		//New tree is resulting tree
+		return flag;
+		
 	}
 
 	//clears tree
@@ -408,6 +692,7 @@ public class TwoFourTree implements SSet<Object> {
 
 		//XXX
 		public void remove() {
+			removeHack(next);
 		}
 	
 	}
@@ -434,7 +719,6 @@ public class TwoFourTree implements SSet<Object> {
 		return true;
 	}
 
-	//XXX HACK!
 	public TwoFourNode getRoot() {
 		return myRootNode;
 	}
@@ -480,10 +764,44 @@ public class TwoFourTree implements SSet<Object> {
 		return true;
 	}
 
-	//XXX
 	public boolean differenceWith(SSet sset) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		
+		
+		//Empty set
+		if (size() == 0 || sset.size() == 0 ) {
+			return true;
+		}
+		
+		TwoFourNode oldRoot = myRootNode;  //Store for failure
+		
+		TwoFourTree nt = new TwoFourTree();
+		
+		Iterator iter = iterator();
+		
+		//Iterate over every element
+		while ( iter.hasNext()) {
+			
+			Object obj = iter.next();
+			if (sset.belongsTo(obj) == true) {
+				continue;
+			}
+			nt.add(obj);
+		}
+		
+		myRootNode = nt.getRoot(); //XXX
+		
+		//If empty set is result
+		if (size() == 0) {
+			//Reset old root
+			myRootNode = oldRoot;
+			//Fail
+			return false;
+		}
+		
+		//New tree is resulting tree
+		return true;
+		
 	}
 
 	//Is this set a subset of sset?
@@ -505,55 +823,47 @@ public class TwoFourTree implements SSet<Object> {
 		}
 		return true;
 	}
-	//Helper function
-	//As you go down the search path, we split every full node
-	//Only called when node is full
-	protected void split(TwoFourNode node)  {
+	
+	
 
 
-		//Node has 3 elems and four children 
-		Object right = node.remove();
-		Object mid = node.remove();  
 
-		//Children 0 and 1 are handled later
-		TwoFourNode c2 = node.removeEdge(2); 
-		TwoFourNode c3 = node.removeEdge(3); 
-
-		TwoFourNode parent;
-
-		//Case: root
-		if(myRootNode == node)   {
-				myRootNode = new TwoFourNode();
-				parent = myRootNode; 
-				myRootNode.createEdge(0, node);
-		}
-		//Case Internal Node
-		else {
-			parent = node.parent(); 
-		}
-
-		//Add middle data elem to parent
-		int iAdded = parent.addNewElem(mid);
-		int elems = parent.howManyElems();
-
-		//Shift edges
-		for(int i=elems-1; i>iAdded; i--) {
-			TwoFourNode tmp = parent.removeEdge(i); 
-			parent.createEdge(i+1, tmp);    
-		}
-
-		//This will be new node on right
-		TwoFourNode rnew = new TwoFourNode(); 
-		parent.createEdge(iAdded+1, rnew); 
-
-		//Repopulate node
-		rnew.addNewElem(right);  
-		rnew.createEdge(0, c2); 
-		rnew.createEdge(1, c3); 
+	//XXX DELETE ME
+	public void displayTree()
+	{
+		recDisplayTree(myRootNode, 0, 0);
 	}
 	
+	
+	//XXX DELETE ME
+	private void recDisplayTree(TwoFourNode thisNode, int level, int childNumber)
+	{
+		System.out.print("level="+level+" child="+childNumber+" ");
+		thisNode.displayNode();               // display this node
+
+		// call ourselves for each child of this node
+		int numElems= thisNode.howManyElems();
+		for(int j=0; j<numElems+1; j++)
+		{
+			TwoFourNode nextNode = thisNode.getChild(j);
+			if(nextNode != null)
+				recDisplayTree(nextNode, level+1, j);
+			else
+				return;
+		}
+	}  // end recDisplayTree()
+
+
+
+
+	
 	public String toString() {
-		// You want to call toString on every node of this tree, starting from root.
+		
+		TwoFourNode current = myRootNode;
+		String str = "";
+		
+		
+		
 		
 		return null;
 	}

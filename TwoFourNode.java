@@ -119,7 +119,7 @@ public class TwoFourNode<T> {
 	}
 
 	//searches for elem, returns index
-	public int findElem(Object x) { //key->x       //XXX LONG and COMPARE
+	public int findElem(Object x) {
 		int flag = -1;
 
 		for(int i=0; i<3; i++)  { 
@@ -164,23 +164,6 @@ public class TwoFourNode<T> {
 	}
 	
 	
-	
-	
-	
-	//Find object that is less than x, but more than min
-//	public int findLT(Object x, Object min) {
-//		int flag = -1;
-//		for(int i=2; i >= 0; i--)  {  //Start at last index
-//			if(elems[i] == null) {
-//				break;
-//			}
-//			else if( (c.compare(elems[i], x) < 0) && (c.compare(elems[i], min) > 0)  ) { 
-//				flag = i;
-//				break;
-//			}
-//		}
-//		return flag;
-//	}
 	//Greater or equal to x, less than max
 	public int findGE(Object x, Object max) {
 		int flag = -1;
@@ -213,9 +196,6 @@ public class TwoFourNode<T> {
 	public int addNewElem(Object obj) {
 
 
-
-		//Object newKey = obj.getData();        //XXX LONG AND COMPARABLE
-
 		//Inc node
 		numberOfElems++;
 
@@ -226,11 +206,8 @@ public class TwoFourNode<T> {
 					continue; 
 				else {                             
 
-					Object k = elems[i]; //XXX LONG and COMPARE
-					//If bigger than, shift left
-					//if(newKey < itsKey) //XXX COMPARABLE
-					//if(((ta)newKey).data < ((ta)itsKey).data) //XXX COMPARABLE
-					if(c.compare(obj, k ) < 0) //XXX COMPARABLE
+					Object k = elems[i];
+					if(c.compare(obj, k ) < 0) 
 						elems[i+1] = elems[i]; 
 
 					//No more shifting
@@ -242,9 +219,22 @@ public class TwoFourNode<T> {
 				}  
 		} 
 		elems[indexToReturn] = obj;
-		//Return index were added
+		//Return index where added
 		return indexToReturn;
 	} 
+	
+	Object removeElem(int index) {
+		Object toReturn = getElem(index);
+		int i;
+		for (i = index; i < numberOfElems-1; i++) {
+			elems[i] = elems[i+1];
+		}
+		elems[i] = null;
+		numberOfElems--;
+		
+		return toReturn;
+		
+	}
 
 
 	//XXX DELETE ME!
@@ -264,7 +254,11 @@ public class TwoFourNode<T> {
 
 	//TO-DO: Create a string which includes the parent of the node, if any, plus, all of it's children.
 	//The format should be easy to follow and useful. Think about at as a helper method for debugging/testing
-	public String  toString() { //XXX
-		return null;
+	public String  toString() { 
+		String str = "|";
+		for (int i = 0; i< howManyElems(); i++) {
+			str+= elems[i] + "|";
+		}
+		return str;
 	}
 }

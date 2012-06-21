@@ -22,7 +22,7 @@ public class test {
 		//tclear(tree);
 		
 		//tfindGE(tree);
-		tfindLT(tree);
+		//tfindLT(tree);
 		//tfind(tree);
 		//tfindG(tree);
 		//tsubset(tree);
@@ -30,13 +30,60 @@ public class test {
 		//titer(tree);
 		//tunion();
 		
+		//removeElem();
+//		tmerge();
+		//tdiff(tree);
+		tremove( tree );
+		
 		tree .displayTree(); //XXX
 		//tComp(tree);
 		System.out.println("Complete");
  
 		
 	}
+   public static void tremove(TwoFourTree t) {
+	   
+      t.remove(new ta(119));
+      
+   }
 	
+   public static void tdiff(TwoFourTree t) {
+	   TwoFourTree nt = new TwoFourTree();
+      nt.add(new ta(41));
+      nt.add(new ta(119));
+      
+      
+      t.clear();
+      t.add(new ta(50));
+      t.add(new ta(40));
+      t.add(new ta(41));
+      t.add(new ta(119));
+      t.differenceWith(nt);
+	   
+   }
+	
+   public static void tmerge() {
+	   
+	   TwoFourTree t = new TwoFourTree();
+	   
+	   t.testMerge(); //XXX
+	   
+	   t.displayTree();//XXX
+	   
+   }
+	
+	
+   public static void removeElem() {
+	   TwoFourTree t = new TwoFourTree();
+	   
+	   t.add(new ta(1));
+	   t.add(new ta(2));
+	   t.add(new ta(3));
+	   
+	   //t.test(); //XXX
+	   
+	   //t.displayTree(); //XXX
+   }
    public static void tfindLT(TwoFourTree t) {
 	   
 	   //Edge casese
