@@ -1,0 +1,8 @@
+#Git ignore
+
+./ta.java
+./original/
+./original/*
+./test/*
+./test/
+
